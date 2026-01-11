@@ -1,0 +1,4196 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../node_modules/.prisma/client/default"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model action_mnps_mapping {
+  mnp_code              String
+  action_id             Decimal   @db.Decimal
+  create_user_id        String
+  last_modified_user_id String?
+  create_date           DateTime  @db.Timestamp(6)
+  update_date           DateTime? @db.Timestamp(6)
+
+  @@id([mnp_code, action_id])
+}
+
+model action_types {
+  action_type      String  @id(map: "action_types_pk")
+  type_description String
+  execution_type   String
+  action_icon      String?
+}
+
+model actions {
+  action_id             Decimal   @db.Decimal
+  tenant_id             String
+  action_domain         String
+  action_name           String
+  action_language       String?
+  action_type           String
+  asset                 String
+  asset_params          String?
+  asset_params_raw_data String?
+  is_active             String
+  action_order          Decimal   @db.Decimal
+  action_status         String
+  action_version        Decimal   @db.Decimal
+  action_group          String?
+  create_user_id        String
+  last_modified_user_id String?
+  create_date           DateTime  @db.Timestamp(6)
+  update_date           DateTime? @db.Timestamp(6)
+
+  @@id([tenant_id, action_domain, action_name], map: "action_pk")
+}
+
+model amdocs_esi_pre_publish {
+  pre_publish_id  Decimal   @id(map: "amdocs_esi_pre_publish_pk") @db.Decimal(10, 0)
+  message_name    String
+  message_status  String?
+  error_message   String?
+  ctcr_user_id    String?
+  ctcr_prog_id    String?
+  ctcr_prog_dt    DateTime? @db.Timestamp(6)
+  ctcr_sys_cre_dt DateTime? @db.Timestamp(6)
+  ctcr_sys_upd_dt DateTime? @db.Timestamp(6)
+  ctcr_event_id   Decimal?  @db.Decimal(12, 0)
+}
+
+model amdocs_esi_publish {
+  adb_sequence             Decimal   @id(map: "amdocs_esi_publish_pk") @db.Decimal(10, 0)
+  message_type             String
+  message_name             String
+  message_data             String
+  adb_set_sequence         Decimal?  @db.Decimal(10, 0)
+  adb_subject              String?
+  adb_timestamp            DateTime? @db.Timestamp(6)
+  adb_opcode               Decimal   @db.Decimal(3, 0)
+  adb_update_all           Decimal?  @db.Decimal(10, 0)
+  adb_l_delivery_status    String?
+  adb_l_cmsequence         Decimal?  @db.Decimal(10, 0)
+  adb_ref_object           String?
+  subscribe_id             Decimal?  @db.Decimal(10, 0)
+  source_app               String?
+  source_id                Decimal?  @db.Decimal(10, 0)
+  error_message            String?
+  monitor_status           String?
+  ctcr_user_id             String?
+  ctcr_source_prog_id      String?
+  ctcr_source_prog_dt      DateTime? @db.Timestamp(6)
+  ctcr_target_prog_id      String?
+  ctcr_target_prog_dt      DateTime? @db.Timestamp(6)
+  ctcr_sys_cre_dt          DateTime? @db.Timestamp(6)
+  ctcr_sys_upd_dt          DateTime? @db.Timestamp(6)
+  ctcr_event_id            Decimal?  @db.Decimal(12, 0)
+  ctcr_source_appl_name    String?
+  ctcr_source_publish_id   Decimal?  @db.Decimal(10, 0)
+  ctcr_source_event_id     Decimal?  @db.Decimal(12, 0)
+  ctcr_source_message_name String?
+  parallel_key             Decimal?  @db.Decimal(20, 0)
+  case_ind                 String?
+  serial_prev_id           Decimal?  @db.Decimal(15, 0)
+  correlation_id           String?
+  entity_id                Decimal?  @db.Decimal(20, 0)
+}
+
+model amdocs_esi_service {
+  subscribe_message_id     Decimal   @id(map: "amdocs_esi_service_pk") @db.Decimal(10, 0)
+  message_name             String
+  message_data             String
+  message_status           String?
+  error_message            String?
+  error_number             String?
+  source_app               String?
+  source_id                Decimal?  @db.Decimal(10, 0)
+  monitor_status           String?
+  retry_count              Decimal?  @db.Decimal(3, 0)
+  case_key                 String?
+  ctcr_user_id             String?
+  ctcr_source_prog_id      String?
+  ctcr_source_prog_dt      DateTime? @db.Timestamp(6)
+  ctcr_target_prog_id      String?
+  ctcr_target_prog_dt      DateTime? @db.Timestamp(6)
+  ctcr_sys_cre_dt          DateTime? @db.Timestamp(6)
+  ctcr_sys_upd_dt          DateTime? @db.Timestamp(6)
+  ctcr_event_id            Decimal?  @db.Decimal(12, 0)
+  ctcr_source_appl_name    String?
+  ctcr_source_publish_id   Decimal?  @db.Decimal(10, 0)
+  ctcr_source_event_id     Decimal?  @db.Decimal(12, 0)
+  ctcr_source_message_name String?
+  message_type             String?
+  parallel_key             Decimal?  @db.Decimal(20, 0)
+  serial_prev_id           Decimal?  @db.Decimal(15, 0)
+  correlation_id           String?
+  publish_error_status     String?
+  entity_id                Decimal?  @db.Decimal(20, 0)
+}
+
+model amdocs_esi_subscribe {
+  subscribe_message_id     Decimal   @id(map: "amdocs_esi_subscribe_pk") @db.Decimal(10, 0)
+  message_name             String
+  message_data             String
+  message_status           String?
+  error_message            String?
+  error_number             String?
+  source_app               String?
+  source_id                Decimal?  @db.Decimal(10, 0)
+  monitor_status           String?
+  retry_count              Decimal?  @db.Decimal(3, 0)
+  case_key                 String?
+  ctcr_user_id             String?
+  ctcr_source_prog_id      String?
+  ctcr_source_prog_dt      DateTime? @db.Timestamp(6)
+  ctcr_target_prog_id      String?
+  ctcr_target_prog_dt      DateTime? @db.Timestamp(6)
+  ctcr_sys_cre_dt          DateTime? @db.Timestamp(6)
+  ctcr_sys_upd_dt          DateTime? @db.Timestamp(6)
+  ctcr_event_id            Decimal?  @db.Decimal(12, 0)
+  ctcr_source_appl_name    String?
+  ctcr_source_publish_id   Decimal?  @db.Decimal(10, 0)
+  ctcr_source_event_id     Decimal?  @db.Decimal(12, 0)
+  ctcr_source_message_name String?
+  message_type             String?
+  parallel_key             Decimal?  @db.Decimal(20, 0)
+  serial_prev_id           Decimal?  @db.Decimal(15, 0)
+  correlation_id           String?
+  publish_error_status     String?
+  entity_id                Decimal?  @db.Decimal(20, 0)
+}
+
+model applactivity {
+  activity_code            String    @id(map: "applactivity_pk")
+  activity_name            String?
+  activity_description     String?
+  ctrl_data_last_oper_id   String?
+  ctrl_data_last_oper_date DateTime? @db.Timestamp(6)
+}
+
+model applauth {
+  appl_code                String
+  activity_code            String
+  security_profile_code    Decimal   @db.Decimal(3, 0)
+  activity_mode            String?
+  ctrl_data_last_oper_id   String?
+  ctrl_data_last_oper_date DateTime? @db.Timestamp(6)
+
+  @@id([appl_code, activity_code, security_profile_code], map: "applauth_pk")
+}
+
+model appldes {
+  appl_code                String    @id(map: "appldes_pk")
+  application_name         String?
+  appl_description         String?
+  ctrl_data_last_oper_id   String?
+  ctrl_data_last_oper_date DateTime? @db.Timestamp(6)
+}
+
+model assets {
+  asset_id                 String
+  asset_type               String
+  asset_creator            String
+  asset_data               String
+  public_ind               String
+  asset_name               String
+  asset_creator_name       String?
+  ctrl_data_last_oper_id   String?
+  ctrl_data_last_oper_date DateTime? @db.Timestamp(6)
+
+  @@id([asset_id, asset_type], map: "assets_pk")
+}
+
+model automation_temp {
+  process_id String  @id(map: "automation_temp_pk")
+  tktnum     String?
+  mnpcod     String?
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model autopay_request {
+  event_id           Int      @id @default(autoincrement())
+  billing_account_id String
+  status             String
+  event_timestamp    DateTime @default(now()) @db.Timestamp(6)
+  payment_details    String?
+  processed_flag     Boolean? @default(false)
+  payment_type       String?
+  request_status     String?
+}
+
+model batch_payments {
+  batch_number       String  @id
+  batch_record_count String?
+  batch_total_amount String?
+}
+
+model bucket_rules_def {
+  rule_id                  String    @id(map: "bucket_rules_def_pk")
+  bucket_name              String
+  active                   String?
+  env_code                 String?
+  mnp_code                 String?
+  error_code               String?
+  error_description        String?
+  source_system            String?
+  customer_id              String?
+  fallout_type             String?
+  criteria01               String?
+  criteria02               String?
+  criteria03               String?
+  criteria04               String?
+  criteria05               String?
+  rule_weight              Decimal?  @db.Decimal(19, 0)
+  ctrl_data_last_oper_date DateTime? @db.Timestamp(6)
+  ctrl_data_last_oper_id   String?
+  label_id                 String?
+}
+
+model c1_entity_in_ipaas {
+  entity               String
+  subtype              String
+  entity_ipaas_support String?
+  sequence             Int?
+  entity_type_category String?
+  target_consumer      String?
+  entity_event         String?
+
+  @@id([entity, subtype])
+}
+
+model customer_link {
+  samson_ban_id                 String    @id @db.VarChar(10)
+  care_indicator                String?   @db.VarChar(25)
+  ctrl_create_time              DateTime? @db.Timestamp(6)
+  ctrl_prog_id                  String?   @db.VarChar(50)
+  ctrl_update_time              DateTime? @db.Timestamp(6)
+  customer_id                   String?   @db.VarChar(100)
+  d1_ba_id                      String?   @db.VarChar(50)
+  entitle_through               String?   @db.VarChar(50)
+  failure_date                  DateTime? @db.Date
+  onboarding_source             String?   @db.VarChar(50)
+  pi_indicator                  String?   @db.VarChar(25)
+  rtb_indicator                 String?   @db.VarChar(25)
+  rtb_migration_date            DateTime? @db.Date
+  status                        String?   @db.VarChar(25)
+  subscriptionitemid            String?   @db.VarChar(25)
+  rtb_biller_ind                String?
+  rtb_rtr_active_mode_dt        DateTime? @db.Date
+  dual_accurate_indicator       String?
+  dual_acc_ind_last_update_date DateTime? @db.Timestamp(6)
+  account_type                  String?
+  account_sub_type              String?
+  priority_indicator            String?
+  confirmed_refresh_date        DateTime? @db.Date
+  error_code                    String?
+  error_source                  String?
+  ban_ops_category              String?
+  fiber_indicator               String?
+}
+
+/// This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
+model customer_link_history {
+  customer_link_history_id BigInt    @id @default(autoincrement())
+  samson_ban_id            String    @db.VarChar(20)
+  care_indicator           String?   @db.VarChar(50)
+  ctrl_create_time         DateTime? @db.Timestamp(6)
+  ctrl_prog_id             String?   @db.VarChar(50)
+  ctrl_update_time         DateTime? @db.Timestamp(6)
+  customer_id              String?   @db.VarChar(100)
+  d1_ba_id                 String?   @db.VarChar(50)
+  entitle_through          String?   @db.VarChar(50)
+  failure_date             DateTime? @db.Date
+  onboarding_source        String?   @db.VarChar(150)
+  pi_indicator             String?   @db.VarChar(50)
+  rtb_indicator            String?   @db.VarChar(50)
+  rtb_migration_date       DateTime? @db.Date
+  status                   String?   @db.VarChar(10)
+  subscriptionitemid       String?   @db.VarChar(10)
+  rtb_biller_ind           String?
+  rtb_rtr_active_mode_dt   DateTime? @db.Date
+  account_type             String?
+  account_sub_type         String?
+  priority_indicator       String?
+  new                      String?
+  request_status           String?   @db.VarChar(10)
+  error_code               String?
+  error_source             String?
+  ban_ops_category         String?
+
+  @@index([samson_ban_id], map: "customer_link_history_banix")
+  @@index([d1_ba_id], map: "customer_link_history_d1bax")
+  @@index([customer_id], map: "customer_link_history_d1custx")
+  @@index([request_status], map: "customer_link_history_statusix")
+}
+
+model customer_link_update_request {
+  request_id       BigInt    @id @default(autoincrement())
+  samson_ban_id    String    @db.VarChar(20)
+  care_indicator   String?   @db.VarChar(50)
+  pi_indicator     String?   @db.VarChar(50)
+  rtb_indicator    String?   @db.VarChar(50)
+  request_status   String?   @db.VarChar(10)
+  error_message    String?
+  retry_count      BigInt?
+  ctrl_create_time DateTime? @db.Timestamp(6)
+  ctrl_prog_id     String?   @db.VarChar(50)
+  ctrl_update_time DateTime? @db.Timestamp(6)
+
+  @@index([samson_ban_id], map: "customer_link_update_request_banix")
+  @@index([request_status], map: "customer_link_update_request_statusix")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model dashboard_incoming_tasks {
+  report_id DateTime? @db.Timestamp(6)
+  name      String?
+  value     BigInt?
+  envcod    String?
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model dashboard_incoming_tasks2 {
+  report_id    DateTime? @db.Timestamp(6)
+  name         String?
+  new_tasks    BigInt?
+  closed_tasks BigInt?
+  envcod       String?
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model dashboard_severity {
+  report_id      DateTime? @db.Timestamp(6)
+  envcod         String?
+  task_status    String?
+  group_severity String?
+  count          BigInt?
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model dashboard_taskmonitor_group {
+  report_id        DateTime? @db.Timestamp(6)
+  envcod           String?
+  total_tasks      BigInt?
+  aborted_tasks    BigInt?
+  acquired_tasks   BigInt?
+  completed_tasks  BigInt?
+  new_tasks        BigInt?
+  started_tasks    BigInt?
+  suspeneded_tasks BigInt?
+  overdue_tasks    BigInt?
+  group_code       String?
+  group_name       String?
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model dashboard_taskmonitor_user {
+  report_id          DateTime? @db.Timestamp(6)
+  employee_id        String?
+  employee_name      String?
+  envcod             String?   @db.VarChar
+  total              BigInt?
+  completed_tasks    BigInt?
+  assigned_tasks     BigInt?
+  overdue_tasks      BigInt?
+  aborted_tasks      BigInt?
+  acquired_tasks     BigInt?
+  started_tasks      BigInt?
+  suspeneded_tasks   BigInt?
+  new_tasks          BigInt?
+  claimed_low        BigInt?
+  claimed_medium     BigInt?
+  claimed_high       BigInt?
+  claimed_critical   BigInt?
+  claimed_passed_due BigInt?
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model dashboard_unassigned_severity {
+  report_id    DateTime? @db.Timestamp(6)
+  row_title    String?   @db.VarChar(128)
+  column_title String?
+  num_of_task  BigInt?
+  envcod       String?
+
+  @@ignore
+}
+
+model data_patching_mnp_mapping {
+  mnp           String    @id
+  mass_type     String
+  mass_sub_type String
+  create_date   DateTime? @db.Date
+  update_date   DateTime? @db.Date
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model databasechangelog {
+  id            String   @db.VarChar(255)
+  author        String   @db.VarChar(255)
+  filename      String   @db.VarChar(255)
+  dateexecuted  DateTime @db.Timestamp(6)
+  orderexecuted Int
+  exectype      String   @db.VarChar(10)
+  md5sum        String?  @db.VarChar(35)
+  description   String?  @db.VarChar(255)
+  comments      String?  @db.VarChar(255)
+  tag           String?  @db.VarChar(255)
+  liquibase     String?  @db.VarChar(20)
+  contexts      String?  @db.VarChar(255)
+  labels        String?  @db.VarChar(255)
+  deployment_id String?  @db.VarChar(10)
+
+  @@ignore
+}
+
+model databasechangeloglock {
+  id          Int       @id
+  locked      Boolean
+  lockgranted DateTime? @db.Timestamp(6)
+  lockedby    String?   @db.VarChar(255)
+}
+
+model dead_letter_queue_data {
+  eventid            String   @id(map: "dlq_pk")
+  eventtime          String
+  domain             String?
+  eventtype          String
+  metadata           String?
+  event              String?
+  errormessage       String?
+  stacktrace         String?
+  traceid            String?
+  customerid         String?
+  productorderid     String?
+  productorderitemid String?
+  title              String?
+  description        String?
+  correlationid      String?
+  headers            String?
+  priority           String?
+  payload_exists     String   @db.VarChar
+  insert_date        DateTime @db.Date
+
+  @@index([payload_exists, insert_date], map: "dead_letter_queue_data_payload_exists_idx")
+}
+
+/// This table is a partition table and requires additional setup for migrations. Visit https://pris.ly/d/partition-tables for more info.
+/// This model contains an expression index which requires additional setup for migrations. Visit https://pris.ly/d/expression-indexes for more info.
+model dlq_data {
+  dlq_id                   String    @default(dbgenerated("gen_random_uuid()"))
+  dlq_retention_start_time DateTime  @db.Timestamp(6)
+  dlq_time                 DateTime  @db.Timestamp(6)
+  dlq_event_status         String
+  dlq_original_headers     String?
+  dlq_original_message     String?
+  original_topic           String?
+  original_timestamp       DateTime? @db.Timestamp(6)
+  resubmit_topic           String?
+  resubmit_count           Decimal?  @db.Decimal
+  original_consumer        String?
+  event_id                 String
+  event_time               DateTime  @db.Timestamp(6)
+  domain                   String?
+  event_type               String?
+  correlation_id           String?
+  priority                 String?
+  trace_id                 String?
+  entity_type              String?
+  entity_id                String?
+  stack_trace              String?
+  base_exception           String?
+  exception_summary        String?
+  error_code               String?
+  error_message            String?
+  fnd_event_time           DateTime? @db.Timestamp(6)
+  customer_id              String?
+  product_order_id         String?
+  ban_id                   String?
+  mnp_code                 String?
+  mnp_type                 String?
+  txt_estx01               String?
+  txt_estx02               String?
+  txt_estx03               String?
+  txt_estx04               String?
+  txt_estx05               String?
+  txt_estx06               String?
+  txt_estx07               String?
+  ts_estx01                DateTime? @db.Timestamp(6)
+  ts_estx02                DateTime? @db.Timestamp(6)
+  ts_estx03                DateTime? @db.Timestamp(6)
+  ts_estx04                DateTime? @db.Timestamp(6)
+  ts_estx05                DateTime? @db.Timestamp(6)
+  num_estx01               Decimal?  @db.Decimal
+  num_estx02               Decimal?  @db.Decimal
+  num_estx03               Decimal?  @db.Decimal
+  num_estx04               Decimal?  @db.Decimal
+  num_estx05               Decimal?  @db.Decimal
+  foremost_label           String?
+  updated_message          String?
+  dlq_topic                String?
+
+  @@id([dlq_id, dlq_retention_start_time], map: "dlq_data_pk")
+  @@index([ban_id], map: "ban_id_idx")
+  @@index([customer_id], map: "customer_id_idx")
+  @@index([dlq_event_status], map: "dlq_event_status_idx")
+  @@index([dlq_time], map: "dlq_time_idx")
+  @@index([dlq_topic], map: "dlq_topic_idx")
+  @@index([domain], map: "domain_idx")
+  @@index([entity_type], map: "entity_type_idx")
+  @@index([event_type], map: "event_type_idx")
+  @@index([mnp_code], map: "mnp_code_idx")
+  @@index([mnp_type], map: "mnp_type_idx")
+  @@index([original_topic], map: "original_topic_idx")
+}
+
+model domain_decodes {
+  domain_code              String
+  code_value               String
+  ctrl_data_last_oper_id   String?
+  ctrl_data_last_oper_date DateTime? @db.Timestamp(6)
+  code_type                String?
+  decode                   String?
+  decode_display           String?
+
+  @@id([domain_code, code_value], map: "domain_decodes_pk")
+}
+
+model dual {
+  dummy String @id
+}
+
+model eai_iam_exceptions {
+  exception_id             Decimal   @id(map: "eai_iam_exceptions_pk") @db.Decimal(10, 0)
+  event_source_app         String?
+  event_source_id          String?
+  message_type             String
+  exception_module         String?
+  exception_status         String?
+  message_name             String
+  message_data             String
+  error_number             String?
+  error_description        String?
+  ctcr_user_id             String?
+  ctcr_source_prog_id      String?
+  ctcr_source_prog_dt      DateTime? @db.Timestamp(6)
+  ctcr_target_prog_id      String?
+  ctcr_target_prog_dt      DateTime? @db.Timestamp(6)
+  ctcr_sys_cre_dt          DateTime? @db.Timestamp(6)
+  ctcr_sys_upd_dt          DateTime? @db.Timestamp(6)
+  ctcr_event_id            Decimal?  @db.Decimal(12, 0)
+  ctcr_source_appl_name    String?
+  ctcr_source_publish_id   Decimal?  @db.Decimal(10, 0)
+  ctcr_source_event_id     Decimal?  @db.Decimal(12, 0)
+  ctcr_source_message_name String?
+  subscribe_id             Decimal?  @db.Decimal(10, 0)
+  case_ind                 String?
+  exception_sub_module     String?
+}
+
+model eai_iam_tracking {
+  tracking_id              Decimal   @id(map: "eai_iam_tracking_pk") @db.Decimal(10, 0)
+  checkpoint_id            String
+  event_source_app         String?
+  event_source_id          String?
+  message_type             String
+  message_name             String
+  message_data             String
+  server_name              String?
+  ctcr_user_id             String?
+  ctcr_source_prog_id      String?
+  ctcr_source_prog_dt      DateTime? @db.Timestamp(6)
+  ctcr_target_prog_id      String?
+  ctcr_target_prog_dt      DateTime? @db.Timestamp(6)
+  ctcr_sys_cre_dt          DateTime? @db.Timestamp(6)
+  ctcr_sys_upd_dt          DateTime? @db.Timestamp(6)
+  ctcr_event_id            Decimal?  @db.Decimal(12, 0)
+  ctcr_source_appl_name    String?
+  ctcr_source_publish_id   Decimal?  @db.Decimal(10, 0)
+  ctcr_source_event_id     Decimal?  @db.Decimal(12, 0)
+  ctcr_source_message_name String?
+}
+
+model eg_lock {
+  eg_name     String   @id(map: "eg_lock_key")
+  lock_time   DateTime @db.Timestamp(6)
+  server_name String?
+}
+
+model employee {
+  employee_id              String    @id(map: "employee_pk")
+  organization             String?
+  external_id              String?
+  office_type              Decimal?  @db.Decimal(3, 0)
+  office_code              String?
+  supervisor_id            String?
+  employee_position        Decimal?  @db.Decimal(3, 0)
+  login_name               String    @unique(map: "employee_login_name_1uix")
+  employee_password        String?
+  emp_social_sn            Decimal?  @db.Decimal(10, 0)
+  emp_first_name           String?
+  emp_middle_name          String?
+  employee_surname         String?
+  employee_short_name      String?
+  employee_unit            Decimal?  @db.Decimal(4, 0)
+  printer_id               String?
+  laptop_ind               String?
+  e_mail_address           String?
+  employee_extension       String?
+  default_appl_code        String?
+  last_emp_status_date     DateTime? @db.Timestamp(6)
+  employee_status          Decimal?  @db.Decimal(1, 0)
+  employee_tn_country_code String?
+  employee_tn_area_code    String?
+  employee_tn_line_num     String?
+  emp_department           Decimal?  @db.Decimal(2, 0)
+  team_code                String?
+  mobile_number            String?
+  outlook_cal_name         String?
+  ctrl_data_last_oper_id   String?
+  ctrl_data_last_oper_date DateTime? @db.Timestamp(6)
+  work_regime              Decimal?  @db.Decimal(5, 2)
+  role_code                String
+}
+
+model employee_secprof {
+  employee_id              String
+  security_profile         Decimal   @db.Decimal(3, 0)
+  ctrl_data_last_oper_id   String?
+  ctrl_data_last_oper_date DateTime? @db.Timestamp(6)
+
+  @@id([employee_id, security_profile], map: "employee_secprof_pk")
+}
+
+/// This table is a partition table and requires additional setup for migrations. Visit https://pris.ly/d/partition-tables for more info.
+model entity_labels_mapping {
+  entity_id            String
+  entity_type          String
+  label_id             String
+  associate_date       DateTime @db.Timestamp(6)
+  retention_start_time DateTime @default(now()) @db.Timestamp(6)
+
+  @@id([entity_id, label_id, retention_start_time], map: "entity_labels_mapping_pk")
+}
+
+model esi_app_control {
+  id                  Decimal   @id @db.Decimal(15, 0)
+  batch_id            String
+  process_name        String
+  start_event_id      Decimal   @db.Decimal(15, 0)
+  end_event_id        Decimal   @db.Decimal(15, 0)
+  file_name           String?
+  status              String
+  record_count        Decimal?  @db.Decimal(15, 0)
+  error_record_count  Decimal?  @db.Decimal(15, 0)
+  error_message       String?
+  error_number        String?
+  batch_start_time    DateTime? @db.Timestamp(6)
+  batch_end_time      DateTime? @db.Timestamp(6)
+  ctcr_user_id        String?
+  ctcr_source_prog_id String?
+  ctcr_source_prog_dt DateTime? @db.Timestamp(6)
+  ctcr_target_prog_id String?
+  ctcr_target_prog_dt DateTime? @db.Timestamp(6)
+  ctcr_sys_cre_dt     DateTime? @db.Timestamp(6)
+  ctcr_sys_upd_dt     DateTime? @db.Timestamp(6)
+}
+
+model esi_eg_control {
+  id                 Decimal   @id @db.Decimal(15, 0)
+  eg_name            String
+  process_name       String
+  process_id         Decimal   @db.Decimal(15, 0)
+  status             String?
+  record_count       Decimal?  @db.Decimal(15, 0)
+  error_record_count Decimal?  @db.Decimal(15, 0)
+  ctcr_sys_cre_dt    DateTime? @db.Timestamp(6)
+  ctcr_sys_upd_dt    DateTime? @db.Timestamp(6)
+}
+
+model et_ipaas_productupdated {
+  eventid          String
+  filename         String?
+  status           String?
+  ctrl_create_time DateTime  @db.Timestamp(6)
+  ctrl_update_time DateTime? @db.Timestamp(6)
+  ctrl_prog_id     String?
+
+  @@id([eventid, ctrl_create_time])
+}
+
+model event_monitor {
+  monitor_id      Decimal   @id(map: "event_monitor_pk") @db.Decimal(10, 0)
+  event_type      String?
+  pub_sub_id      Decimal?  @db.Decimal(10, 0)
+  event_name      String?
+  message_status  String?
+  source_id       Decimal?  @db.Decimal(10, 0)
+  source_app      String?
+  event_date      DateTime? @db.Timestamp(6)
+  ctcr_user_id    String?
+  ctcr_prog_id    String?
+  ctcr_prog_dt    DateTime? @db.Timestamp(6)
+  ctcr_sys_cre_dt DateTime? @db.Timestamp(6)
+  ctcr_sys_upd_dt DateTime? @db.Timestamp(6)
+  ctcr_event_id   Decimal?  @db.Decimal(11, 0)
+}
+
+model exclude_auth {
+  identifier               String
+  type                     String
+  ctrl_data_last_oper_id   String?
+  ctrl_data_last_oper_date DateTime? @db.Timestamp(6)
+
+  @@id([identifier, type])
+}
+
+model field_security {
+  screen_code              String
+  field_code               String
+  appl_code                String
+  security_profile         Decimal   @db.Decimal(3, 0)
+  field_attribute          String
+  ctrl_data_last_oper_id   String?
+  ctrl_data_last_oper_date DateTime? @db.Timestamp(6)
+
+  @@id([appl_code, screen_code, field_code, security_profile], map: "field_security_pk")
+}
+
+model file_payments {
+  file_total_amount String?
+  seq_no            String?
+  generation_date   String?
+  source_type       String
+  source_id         String
+  file_name         String  @id
+  file_record_count String?
+}
+
+model file_transactions {
+  filename              String    @id
+  sourcesystemname      String?
+  creationdatetime      DateTime? @db.Timestamp(6)
+  updatedatetime        DateTime? @db.Timestamp(6)
+  status                String?
+  totalrecords          BigInt?
+  totalfailedvalidation BigInt?
+  totalprocessed        BigInt?
+  totalamountprocessed  Decimal?  @db.Decimal(18, 2)
+  totalfailed           BigInt?
+  accountcreated        String?
+  externalaccountid     String?
+  externalaccountname   String?
+  senderid              String?
+  ordernumber           String?
+  channelid             String?
+  applicationid         String?
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model fm_cleanup {
+  process_id  String?
+  ctcr_cre_dt DateTime? @db.Date
+  is_latest   Boolean?
+
+  @@index([process_id], map: "fm_cleanup_process_id_ix1")
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model fm_cleanup_note {
+  note_id     String?
+  ctcr_cre_dt DateTime? @db.Date
+  is_latest   Boolean?
+
+  @@index([note_id], map: "fm_cleanup_note_noteid_ix1")
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model fm_cleanup_tkt {
+  tktnum              String?   @unique(map: "unique_tktnum") @db.VarChar(256)
+  entity_id           String?   @db.VarChar(400)
+  ctcr_cre_dt         DateTime? @db.Date
+  is_latest           Boolean?
+  cassandra_purge_ind Boolean?
+
+  @@index([is_latest], map: "fm_cleanup_tkt_ix2")
+  @@index([cassandra_purge_ind], map: "fm_cleanup_tkt_ix3")
+  @@index([tktnum], map: "fm_cleanup_tkt_tktnum_ix1")
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model fm_cleanup_trc {
+  process_id  String?
+  ctcr_cre_dt DateTime? @db.Date
+  is_latest   Boolean?
+
+  @@index([process_id], map: "fm_cleanup_trc_process_id_ix1")
+  @@ignore
+}
+
+model generic_parallel {
+  population_id            Decimal   @db.Decimal(4, 0)
+  batch_date               DateTime  @db.Timestamp(6)
+  rec_name                 String
+  start_eventid            Decimal?  @db.Decimal(12, 0)
+  end_eventid              Decimal?  @db.Decimal(12, 0)
+  population_count         Decimal?  @db.Decimal(12, 0)
+  ctcr_user_id             String?
+  ctcr_source_prog_id      String?
+  ctcr_source_prog_dt      DateTime? @db.Timestamp(6)
+  ctcr_target_prog_id      String?
+  ctcr_target_prog_dt      DateTime? @db.Timestamp(6)
+  ctcr_sys_cre_dt          DateTime? @db.Timestamp(6)
+  ctcr_sys_upd_dt          DateTime? @db.Timestamp(6)
+  ctcr_event_id            Decimal?  @db.Decimal(12, 0)
+  ctcr_source_appl_name    String?
+  ctcr_source_publish_id   Decimal?  @db.Decimal(10, 0)
+  ctcr_source_event_id     Decimal?  @db.Decimal(12, 0)
+  ctcr_source_message_name String?
+
+  @@id([population_id, batch_date, rec_name], map: "generic_parallel_pk")
+}
+
+model ipaas_throttling_broadcast {
+  throttling_key   String    @id(map: "ipaas_tb_pk")
+  broadcast_time   DateTime? @db.Timestamp(6)
+  broadcast_value  String
+  ctrl_create_time DateTime  @db.Timestamp(6)
+  ctrl_update_time DateTime  @db.Timestamp(6)
+}
+
+model jesi_appconfig {
+  prop_key     String   @id
+  prop_value   String
+  sys_cre_date DateTime @db.Timestamp(6)
+  sys_upd_date DateTime @db.Timestamp(6)
+}
+
+model jesi_datasource_config {
+  name                String    @id(map: "jesi_datasource_config_pk")
+  properties          String?
+  ctcr_source_prog_id String?
+  ctcr_source_prog_dt DateTime? @db.Timestamp(6)
+}
+
+model jesi_filesystem {
+  node_id        Decimal  @id(map: "jesi_filesystem_pk") @db.Decimal(15, 0)
+  parent_node_id Decimal  @db.Decimal(15, 0)
+  is_directory   String
+  name           String   @unique(map: "jesi_filesystem_name_uix")
+  content        Bytes?
+  sys_cre_date   DateTime @db.Timestamp(6)
+  sys_upd_date   DateTime @db.Timestamp(6)
+  owner          String?
+
+  @@index([parent_node_id], map: "jesi_filesystem_parent_ix")
+}
+
+model jesi_lookup {
+  lookup_id    Decimal  @id(map: "jesi_lookup_pk") @db.Decimal(15, 0)
+  name         String
+  code         String
+  decode       String
+  sys_cre_date DateTime @db.Timestamp(6)
+
+  @@unique([name, code], map: "jesi_lookup_name_uix")
+}
+
+model jesi_security_config {
+  name                String    @id(map: "jesi_security_config_pk")
+  sec_host            String?
+  sec_user            String?
+  sec_password        String?
+  pin                 String?
+  securityconfig      String?
+  ctcr_source_prog_id String?
+  ctcr_source_prog_dt DateTime? @db.Timestamp(6)
+}
+
+model jesi_wf_alarm {
+  alarm_id            Decimal   @id(map: "jesi_wf_alarm_pk") @db.Decimal(18, 0)
+  alarm_type          String
+  alarm_date          DateTime  @db.Timestamp(6)
+  process_id          String?
+  task_id             String?
+  root_process_id     String?
+  process_name        String?
+  task_name           String?
+  alarm_scope         String?
+  alarm_status        String?
+  parallel_key        Decimal?  @db.Decimal(5, 0)
+  server_id           String?
+  ctcr_source_prog_id String?
+  ctcr_source_prog_dt DateTime? @db.Timestamp(6)
+
+  @@index([alarm_date], map: "jesi_wf_alarm_1ix")
+  @@index([alarm_status, alarm_date], map: "jesi_wf_alarm_fvix")
+}
+
+model jesi_wf_amdocs_subscribe {
+  subscribe_message_id     Decimal   @id(map: "jesi_wf_amdocs_subscribe_pk") @db.Decimal(10, 0)
+  message_name             String
+  message_data             String
+  message_status           String?
+  error_message            String?
+  error_number             String?
+  source_app               String?
+  source_id                String?
+  monitor_status           String?
+  retry_count              Decimal?  @db.Decimal(3, 0)
+  case_key                 String?
+  ctcr_user_id             String?
+  ctcr_source_prog_id      String?
+  ctcr_source_prog_dt      DateTime? @db.Timestamp(6)
+  ctcr_target_prog_id      String?
+  ctcr_target_prog_dt      DateTime? @db.Timestamp(6)
+  ctcr_sys_cre_dt          DateTime? @db.Timestamp(6)
+  ctcr_sys_upd_dt          DateTime? @db.Timestamp(6)
+  ctcr_event_id            Decimal?  @db.Decimal(12, 0)
+  ctcr_source_appl_name    String?
+  ctcr_source_publish_id   Decimal?  @db.Decimal(10, 0)
+  ctcr_source_event_id     Decimal?  @db.Decimal(12, 0)
+  ctcr_source_message_name String?
+  message_type             String?
+  parallel_key             Decimal?  @db.Decimal(20, 0)
+  serial_prev_id           Decimal?  @db.Decimal(15, 0)
+  correlation_id           String?
+  publish_error_status     String?
+  entity_id                Decimal?  @db.Decimal(20, 0)
+  message_size             String?
+
+  @@index([ctcr_sys_cre_dt], map: "jesi_wf_amdocs_subscribe_1ix")
+}
+
+model jesi_wf_calendar {
+  calendar_code            String    @id(map: "jesi_wf_calendar_pk")
+  calendar_name            String
+  calendar_time_zone       String
+  system_calendar_ind      String
+  active_indicator         String
+  event_status             String?
+  ctrl_data_last_oper_id   String?
+  ctrl_data_last_oper_date DateTime? @db.Timestamp(6)
+}
+
+model jesi_wf_calendar_rules {
+  rule_id                  String    @id(map: "jesi_wf_calendar_rules_pk")
+  calendar_code            String
+  busy_indicator           String
+  time_period_type         String
+  day_of_week              String?
+  start_hour               String?
+  end_hour                 String?
+  single_year              Decimal?  @db.Decimal(4, 0)
+  single_month             String?
+  single_day               Decimal?  @db.Decimal(2, 0)
+  start_month              String?
+  end_month                String?
+  start_day                Decimal?  @db.Decimal(2, 0)
+  end_day                  Decimal?  @db.Decimal(2, 0)
+  active_indicator         String
+  event_status             String?
+  ctrl_data_last_oper_id   Decimal?  @db.Decimal(6, 0)
+  ctrl_data_last_oper_date DateTime? @db.Timestamp(6)
+}
+
+model jesi_wf_cleanup {
+  process_id  String    @id(map: "jesi_wf_cleanup_pk")
+  ctcr_cre_dt DateTime? @db.Date
+  is_latest   Boolean?
+}
+
+model jesi_wf_cleanup_note {
+  note_id     String    @id(map: "jesi_wf_cleanup_note_pk")
+  ctcr_cre_dt DateTime? @db.Date
+  is_latest   Boolean?
+
+  @@index([note_id, is_latest], map: "jesi_wf_cleanup_note_1ix")
+}
+
+model jesi_wf_cleanup_trc {
+  process_id  String    @id(map: "jesi_wf_cleanup_trc_pk")
+  ctcr_cre_dt DateTime? @db.Date
+  is_latest   Boolean?
+
+  @@index([process_id], map: "jesi_wf_cleanup_trc_1ix")
+  @@index([is_latest], map: "jesi_wf_cleanup_trc_2ix")
+}
+
+model jesi_wf_cluster {
+  node_id                String    @id(map: "jesi_wf_cluster_pk")
+  service_name           String?
+  cluser_publish_address String?
+  hb_timestamp           DateTime? @db.Timestamp(6)
+  ctcr_sys_cre_dt        DateTime? @db.Timestamp(6)
+  server_url             String?
+}
+
+model jesi_wf_designer_config {
+  name        String
+  sec_profile String
+  parent_name String?
+  label       String
+  icon        String?
+  flow        String?
+  parameters  String?
+  orderid     Decimal @db.Decimal(3, 0)
+
+  @@id([name, sec_profile])
+}
+
+model jesi_wf_flow_deploy {
+  process_name String    @id(map: "jesi_wf_flow_deploy_pk")
+  process_crc  Decimal   @db.Decimal(10, 0)
+  server_id    String?
+  flow_content String?
+  deploy_date  DateTime? @db.Timestamp(6)
+}
+
+model jesi_wf_flow_instance {
+  process_id            String    @id(map: "jesi_wf_flow_instance_pk1")
+  process_code          String?
+  root_process_id       String?
+  parent_process_id     String?
+  process_name          String
+  process_status        Decimal   @db.Decimal(2, 0)
+  process_scope         String?
+  process_node_id       String?
+  process_variables     Bytes?
+  note_id               String?
+  completion_due_date   DateTime? @db.Timestamp(6)
+  process_start_time    DateTime? @db.Timestamp(6)
+  process_end_time      DateTime? @db.Timestamp(6)
+  variables_on_failure  Bytes?
+  server_id             String?
+  event_source_id       String?
+  ctcr_source_prog_id   String?
+  ctcr_source_prog_dt   DateTime? @db.Timestamp(6)
+  ctcr_source_appl_name String?
+  include_variables_ind String?
+
+  @@index([parent_process_id], map: "jesi_wf_flow_instance_ix5_parent_id")
+  @@index([root_process_id], map: "jesi_wf_flow_instance_new2_jan_ix6")
+  @@index([process_start_time], map: "jesi_wf_flow_instance_new_ix1")
+  @@index([process_status], map: "jesi_wf_flow_instance_new_ix2")
+  @@index([process_end_time], map: "jesi_wf_flow_instance_new_ix3")
+  @@index([process_name], map: "jesi_wf_flow_instance_new_ix4")
+  @@index([parent_process_id], map: "jesi_wf_flow_instance_new_ix5")
+}
+
+model jesi_wf_flow_instance_new {
+  process_id            String    @id
+  process_code          String?
+  root_process_id       String?
+  parent_process_id     String?
+  process_name          String
+  process_status        Decimal   @db.Decimal(2, 0)
+  process_scope         String?
+  process_node_id       String?
+  process_variables     Bytes?
+  note_id               String?
+  completion_due_date   DateTime? @db.Timestamp(6)
+  process_start_time    DateTime? @db.Timestamp(6)
+  process_end_time      DateTime? @db.Timestamp(6)
+  variables_on_failure  Bytes?
+  server_id             String?
+  event_source_id       String?
+  ctcr_source_prog_id   String?
+  ctcr_source_prog_dt   DateTime? @db.Timestamp(6)
+  ctcr_source_appl_name String?
+  include_variables_ind String?
+
+  @@index([parent_process_id])
+  @@index([process_end_time])
+  @@index([process_name])
+  @@index([process_start_time])
+  @@index([process_status])
+  @@index([root_process_id])
+}
+
+model jesi_wf_flow_instance_old {
+  process_id            String    @id(map: "jesi_wf_flow_instance_pk")
+  process_code          String?
+  root_process_id       String?
+  parent_process_id     String?
+  process_name          String
+  process_status        Decimal   @db.Decimal(2, 0)
+  process_scope         String?
+  process_node_id       String?
+  process_variables     Bytes?
+  note_id               String?
+  completion_due_date   DateTime? @db.Timestamp(6)
+  process_start_time    DateTime? @db.Timestamp(6)
+  process_end_time      DateTime? @db.Timestamp(6)
+  variables_on_failure  Bytes?
+  server_id             String?
+  event_source_id       String?
+  ctcr_source_prog_id   String?
+  ctcr_source_prog_dt   DateTime? @db.Timestamp(6)
+  ctcr_source_appl_name String?
+  include_variables_ind String?
+
+  @@index([process_start_time], map: "jesi_wf_flow_instance_ix1")
+  @@index([process_status], map: "jesi_wf_flow_instance_ix2")
+  @@index([process_end_time], map: "jesi_wf_flow_instance_ix3")
+  @@index([process_name], map: "jesi_wf_flow_instance_ix4")
+  @@index([parent_process_id], map: "jesi_wf_flow_instance_ix5")
+  @@index([root_process_id], map: "jesi_wf_flow_instance_new1_jan_ix6")
+  @@index([root_process_id], map: "jesi_wf_flow_instance_new_jan_ix6")
+}
+
+/// This table is a partition table and requires additional setup for migrations. Visit https://pris.ly/d/partition-tables for more info.
+model jesi_wf_flow_instance_variables {
+  process_id           String
+  process_variables    Bytes?
+  variables_on_failure Bytes?
+  process_start_time   DateTime @db.Timestamp(6)
+  ctcr_source_prog_dt  DateTime @db.Timestamp(6)
+
+  @@id([process_id, process_start_time], map: "jesi_wf_flow_instance_variables_pk")
+}
+
+model jesi_wf_flow_trace_log {
+  process_id            String
+  flow_name             String
+  server_name           String
+  server_id             String
+  base_flow_name        String
+  process_status        Decimal   @db.Decimal(2, 0)
+  root_process_id       String?
+  parent_process_id     String?
+  root_flow_name        String?
+  root_eg_name          String?
+  main_ind              String?
+  flow_hierarchy        String?
+  story_name            String?
+  error_number          String?
+  error_description     String?
+  process_log           String?
+  advertiser_id         String?
+  business_id           String?
+  offer_id              String?
+  product_id            String?
+  product_version       String?
+  request_version       String?
+  case_id               String?
+  form_id               String?
+  general_addition      String?
+  product_name          String?
+  offer_name            String?
+  business_name         String?
+  advertiser_name       String?
+  account_id            String?
+  order_id              String?
+  prcsd_product_id      String?
+  prcsd_product_ver     String?
+  doc_id                String?
+  ban_id                String?
+  trace_id              String?
+  gtxid                 String?
+  txid                  String?
+  flow_source           String?
+  story_path            String?
+  estx01                String?
+  estx02                String?
+  estx03                String?
+  estx04                String?
+  estx05                String?
+  estx06                String?
+  estx07                String?
+  estx08                String?
+  estx09                String?
+  estx10                String?
+  estx11                String?
+  estx12                String?
+  estx13                String?
+  estx14                String?
+  estx15                String?
+  estx16                String?
+  estx17                String?
+  estx18                String?
+  estx19                String?
+  estx20                String?
+  estx21                String?
+  estx22                String?
+  estx23                String?
+  estx24                String?
+  estx25                String?
+  estx26                String?
+  estx27                String?
+  estx28                String?
+  estx29                String?
+  estx30                String?
+  estx31                String?
+  estx32                String?
+  estx33                String?
+  estx34                String?
+  estx35                String?
+  estx36                String?
+  estx37                String?
+  estx38                String?
+  estx39                String?
+  estx40                String?
+  emtx01                String?
+  emtx02                String?
+  emtx03                String?
+  emtx04                String?
+  emtx05                String?
+  emtx06                String?
+  emtx07                String?
+  emtx08                String?
+  emtx09                String?
+  emtx10                String?
+  eltx01                String?
+  eltx02                String?
+  eltx03                String?
+  eltx04                String?
+  eltx05                String?
+  edtm01                DateTime? @db.Timestamp(6)
+  edtm02                DateTime? @db.Timestamp(6)
+  edtm03                DateTime? @db.Timestamp(6)
+  edtm04                DateTime? @db.Timestamp(6)
+  edtm05                DateTime? @db.Timestamp(6)
+  edtm06                DateTime? @db.Timestamp(6)
+  edtm07                DateTime? @db.Timestamp(6)
+  edtm08                DateTime? @db.Timestamp(6)
+  edtm09                DateTime? @db.Timestamp(6)
+  edtm10                DateTime? @db.Timestamp(6)
+  ctcr_user_id          String?
+  ctcr_source_prog_id   String?
+  ctcr_source_prog_dt   DateTime? @db.Timestamp(6)
+  ctcr_sys_cre_dt       DateTime? @db.Timestamp(6)
+  ctcr_sys_upd_dt       DateTime? @db.Timestamp(6)
+  ctcr_source_appl_name String?
+
+  @@id([process_id, flow_name, server_name], map: "jesi_wf_flow_trace_log_pk")
+  @@index([story_name], map: "jesi_wf_flow_trace_log_1ix")
+  @@index([root_eg_name], map: "jesi_wf_flow_trace_log_2ix")
+  @@index([flow_name], map: "jesi_wf_flow_trace_log_3ix")
+  @@index([ctcr_sys_upd_dt, main_ind], map: "jesi_wf_flow_trace_log_4ix")
+  @@index([root_process_id], map: "jesi_wf_flow_trace_log_5ix")
+}
+
+model jesi_wf_flow_trace_nodes {
+  process_execution_id String
+  process_id           String
+  server_id            String
+  node_id              String
+  node_status          String
+  node_count           Decimal @db.Decimal(10, 0)
+
+  @@id([process_execution_id, process_id, server_id, node_id, node_status], map: "jesi_wf_flow_trace_nodes_pk")
+  @@index([node_id], map: "jesi_wf_flow_trace_nodes_1ix")
+}
+
+model jesi_wf_group {
+  group_code               String    @id(map: "jesi_wf_group_pk")
+  group_name               String?
+  inactive_date            DateTime? @db.Timestamp(6)
+  security_profile         Decimal?  @db.Decimal(2, 0)
+  external_id              String?
+  organization             String?
+  event_status             String?
+  active_ind               String?
+  ctrl_data_last_oper_id   String?
+  ctrl_data_last_oper_date DateTime? @db.Timestamp(6)
+}
+
+model jesi_wf_ignite_tbl_addrs {
+  hostname     String
+  port         Int
+  service_name String?
+
+  @@id([hostname, port])
+  @@index([service_name], map: "jesi_wf_ignite_tbl_addrs_ix1")
+}
+
+model jesi_wf_last_auto_assg {
+  group_code            String
+  regular_member_ind    String
+  employee_id           String?
+  ctcr_user_id          String?
+  ctcr_source_prog_id   String?
+  ctcr_source_prog_dt   DateTime? @db.Timestamp(6)
+  ctcr_sys_cre_dt       DateTime? @db.Timestamp(6)
+  ctcr_sys_upd_dt       DateTime? @db.Timestamp(6)
+  ctcr_source_appl_name String?
+
+  @@id([group_code, regular_member_ind], map: "jesi_wf_last_auto_assg_pk")
+}
+
+/// This table is a partition table and requires additional setup for migrations. Visit https://pris.ly/d/partition-tables for more info.
+model jesi_wf_log {
+  id                  String   @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  log_level           String?
+  log_data            String?
+  process_id          String?
+  server_id           String?
+  ctcr_source_prog_id String?
+  ctcr_source_prog_dt DateTime @db.Timestamp(6)
+
+  @@id([id, ctcr_source_prog_dt], map: "jesi_wf_log_pk")
+  @@index([ctcr_source_prog_id, ctcr_source_prog_dt], map: "jesi_wf_log_1ix")
+}
+
+model jesi_wf_msg_offset {
+  group_name      String
+  msg_partition   Decimal   @db.Decimal(5, 0)
+  msg_offset      Decimal?  @db.Decimal(12, 0)
+  ctcr_sys_cre_dt DateTime? @db.Timestamp(6)
+
+  @@id([group_name, msg_partition])
+}
+
+model jesi_wf_note {
+  process_id            String?
+  note_id               String
+  note_line             Decimal   @db.Decimal(14, 0)
+  note_data             String?
+  server_id             String?
+  ctcr_user_id          String?
+  ctcr_source_prog_id   String?
+  ctcr_source_prog_dt   DateTime? @db.Timestamp(6)
+  ctcr_sys_cre_dt       DateTime? @db.Timestamp(6)
+  ctcr_sys_upd_dt       DateTime? @db.Timestamp(6)
+  ctcr_source_appl_name String?
+
+  @@id([note_id, note_line], map: "jesi_wf_note_pk")
+  @@index([process_id], map: "jesi_wf_note_1ix")
+}
+
+model jesi_wf_note_def {
+  note_code                String    @id(map: "jesi_wf_note_def_pk")
+  note_type                String?
+  note_text                String?
+  display_note_ind         String?
+  active_ind               String?
+  ctrl_data_last_oper_id   String?
+  ctrl_data_last_oper_date DateTime? @db.Timestamp(6)
+}
+
+model jesi_wf_process_def {
+  process_code             String    @id(map: "jesi_wf_process_def_pk")
+  process_name             String?
+  start_activity_code      String?
+  cancel_activity_code     String?
+  resume_activity_code     String?
+  completion_duration      String?
+  expired_duration         String?
+  calendar                 String?
+  completion_overdue_task  String?
+  xml_data_ref             String?
+  on_initiated_msg         String?
+  on_suspended_msg         String?
+  on_aborted_msg           String?
+  on_resumed_msg           String?
+  on_completed_msg         String?
+  on_stopped_msg           String?
+  manual_lunch_ind         String?
+  ctrl_data_last_oper_id   Decimal?  @db.Decimal(6, 0)
+  ctrl_data_last_oper_date DateTime? @db.Timestamp(6)
+}
+
+model jesi_wf_process_hist_trc {
+  process_hist_id          Decimal   @id(map: "jesi_wf_process_hist_trc_pk") @db.Decimal(12, 0)
+  root_process_id          String
+  process_id               String
+  operation_date           DateTime  @db.Timestamp(6)
+  activity_type            String
+  process_status           String?
+  task_id                  String?
+  task_status              String?
+  performed_by             String?
+  root_process_status      String?
+  calendar_code            String?
+  ctcr_user_id             String?
+  ctcr_source_prog_id      String?
+  ctcr_source_prog_dt      DateTime? @db.Timestamp(6)
+  ctcr_target_prog_id      String?
+  ctcr_target_prog_dt      DateTime? @db.Timestamp(6)
+  ctcr_sys_cre_dt          DateTime? @db.Timestamp(6)
+  ctcr_sys_upd_dt          DateTime? @db.Timestamp(6)
+  ctcr_event_id            String?
+  ctcr_source_appl_name    String?
+  ctcr_source_publish_id   String?
+  ctcr_source_event_id     String?
+  ctcr_source_message_name String?
+
+  @@index([task_id], map: "jesi_wf_process_hist_trc_1ix")
+  @@index([process_status], map: "jesi_wf_process_hist_trc_2ix")
+  @@index([process_id], map: "jesi_wf_process_hist_trc_3ix")
+  @@index([root_process_id, operation_date], map: "jesi_wf_process_hist_trc_4ix")
+}
+
+model jesi_wf_process_param_trc {
+  process_id               String    @id(map: "jesi_wf_process_param_trc_pk")
+  advertiser_id            String?
+  business_id              String?
+  offer_id                 String?
+  product_id               String?
+  product_version          String?
+  request_version          String?
+  case_id                  String?
+  form_id                  String?
+  general_addition         String?
+  product_name             String?
+  offer_name               String?
+  business_name            String?
+  advertiser_name          String?
+  account_id               String?
+  order_id                 String?
+  prcsd_product_id         String?
+  prcsd_product_ver        String?
+  doc_id                   String?
+  ctcr_user_id             String?
+  ctcr_source_prog_id      String?
+  ctcr_source_prog_dt      DateTime? @db.Timestamp(6)
+  ctcr_target_prog_id      String?
+  ctcr_target_prog_dt      DateTime? @db.Timestamp(6)
+  ctcr_sys_cre_dt          DateTime? @db.Timestamp(6)
+  ctcr_sys_upd_dt          DateTime? @db.Timestamp(6)
+  ctcr_event_id            String?
+  ctcr_source_appl_name    String?
+  ctcr_source_publish_id   String?
+  ctcr_source_event_id     String?
+  ctcr_source_message_name String?
+  customer_id              String?
+  customer_name            String?
+  levcod                   String?
+  envcod                   String?
+  tktdef                   String?
+  tktnum                   String?
+  tckprn                   String?
+  cycnum                   Decimal?  @db.Decimal(38, 0)
+  cycrut                   Decimal?  @db.Decimal(38, 0)
+  catcod                   String?
+  mnpcod                   String?
+  owncod                   String?
+  pricod                   String?
+  slacod                   String?
+  blgcod                   String?
+  eclcod                   String?
+  isovrf                   String?
+  isrfrr                   String?
+  isovrc                   String?
+  isrsvd                   String?
+  isactv                   String?
+  isovrd                   String?
+  rcvdtm                   DateTime? @db.Timestamp(6)
+  rsvdtm                   DateTime? @db.Timestamp(6)
+  credtm                   DateTime? @db.Timestamp(6)
+  creagn                   String?
+  upddtm                   DateTime? @db.Timestamp(6)
+  updtul                   String?
+  updgnt                   String?
+  ownseq                   Decimal?  @db.Decimal
+  priseq                   Decimal?  @db.Decimal
+  mnpseq                   Decimal?  @db.Decimal
+  fchdtm                   DateTime? @db.Timestamp(6)
+  duedtm                   DateTime? @db.Timestamp(6)
+  rawage                   Float?
+  wrkage                   Float?
+  idlage                   Float?
+  slaage                   Float?
+  rsvage                   Decimal?  @db.Decimal
+  bannum                   String?
+  sttcod                   String?
+  frmnum                   String?
+  ordnum                   String?
+  rsnnum                   String?
+  msgcod                   String?
+  msgtx1                   String?
+  msgtx2                   String?
+  stktrc                   String?
+  srcenv                   String?
+  srctkt                   String?
+  trgenv                   String?
+  trgtkt                   String?
+  extind                   String?
+  estx01                   String?
+  estx02                   String?
+  estx03                   String?
+  estx04                   String?
+  estx05                   String?
+  estx06                   String?
+  estx07                   String?
+  estx08                   String?
+  estx09                   String?
+  estx10                   String?
+  estx11                   String?
+  estx12                   String?
+  estx13                   String?
+  estx14                   String?
+  estx15                   String?
+  estx16                   String?
+  estx17                   String?
+  estx18                   String?
+  estx19                   String?
+  estx20                   String?
+  estx21                   String?
+  estx22                   String?
+  estx23                   String?
+  estx24                   String?
+  estx25                   String?
+  estx26                   String?
+  estx27                   String?
+  estx28                   String?
+  estx29                   String?
+  estx30                   String?
+  estx31                   String?
+  estx32                   String?
+  estx33                   String?
+  estx34                   String?
+  estx35                   String?
+  estx36                   String?
+  estx37                   String?
+  estx38                   String?
+  estx39                   String?
+  estx40                   String?
+  emtx01                   String?
+  emtx02                   String?
+  emtx03                   String?
+  emtx04                   String?
+  emtx05                   String?
+  emtx06                   String?
+  emtx07                   String?
+  emtx08                   String?
+  emtx09                   String?
+  emtx10                   String?
+  eltx01                   String?
+  eltx02                   String?
+  eltx03                   String?
+  eltx04                   String?
+  eltx05                   String?
+  edtm01                   DateTime? @db.Timestamp(6)
+  edtm02                   DateTime? @db.Timestamp(6)
+  edtm03                   DateTime? @db.Timestamp(6)
+  edtm04                   DateTime? @db.Timestamp(6)
+  edtm05                   DateTime? @db.Timestamp(6)
+  edtm06                   DateTime? @db.Timestamp(6)
+  edtm07                   DateTime? @db.Timestamp(6)
+  edtm08                   DateTime? @db.Timestamp(6)
+  edtm09                   DateTime? @db.Timestamp(6)
+  edtm10                   DateTime? @db.Timestamp(6)
+  plan_id                  String?
+  activity_id              String?
+  cdm_txid                 String?
+  gtxid                    String?
+  severity                 String?
+  group_severity           String?
+  entity_id                String?
+  mnpurl                   String?
+  estx41                   String?
+  estx42                   String?
+  estx43                   String?
+  estx44                   String?
+  estx45                   String?
+  estx46                   String?
+  estx47                   String?
+  estx48                   String?
+  estx49                   String?
+  estx50                   String?
+  estx51                   String?
+  estx52                   String?
+  estx53                   String?
+  estx54                   String?
+  estx55                   String?
+  estx56                   String?
+  estx57                   String?
+  estx58                   String?
+  estx59                   String?
+  estx60                   String?
+  edtm11                   DateTime? @db.Timestamp(6)
+  edtm12                   DateTime? @db.Timestamp(6)
+  edtm13                   DateTime? @db.Timestamp(6)
+  edtm14                   DateTime? @db.Timestamp(6)
+  edtm15                   DateTime? @db.Timestamp(6)
+  edtm16                   DateTime? @db.Timestamp(6)
+  edtm17                   DateTime? @db.Timestamp(6)
+  edtm18                   DateTime? @db.Timestamp(6)
+  edtm19                   DateTime? @db.Timestamp(6)
+  edtm20                   DateTime? @db.Timestamp(6)
+  estx71                   String?
+  estx72                   String?
+  mnpdef                   String?
+  estx78                   String?
+  estx81                   String?
+  estx82                   String?
+  estx83                   String?
+  estx84                   String?
+  estx85                   String?
+  estx86                   String?
+  estx87                   String?
+  estx88                   String?
+  estx89                   String?
+  estx90                   String?
+  estx91                   String?
+  estx92                   String?
+  estx93                   String?
+  estx94                   String?
+  estx95                   String?
+  eclb03                   String?
+  estx96                   String?
+  region_id                String?
+
+  @@index([tktnum], map: "jesi_wf_process_param_trc_1ix")
+  @@index([tktnum, envcod, levcod], map: "jesi_wf_process_param_trc_ix1")
+}
+
+model jesi_wf_process_trc {
+  process_id               String    @id(map: "jesi_wf_process_trc_pk")
+  process_code             String?
+  note_id                  String?
+  process_name             String?
+  bpm_process_id           String    @unique(map: "jesi_wf_process_trc_2ix")
+  parent_process_id        String?
+  root_process_id          String?
+  sub_root_process_id      String?
+  xml_data                 String?
+  process_start_time       DateTime? @db.Timestamp(6)
+  process_end_time         DateTime? @db.Timestamp(6)
+  completion_due_date      DateTime? @db.Timestamp(6)
+  process_status           Decimal?  @db.Decimal(2, 0)
+  process_version          String?
+  ctcr_user_id             String?
+  ctcr_source_prog_id      String?
+  ctcr_source_prog_dt      DateTime? @db.Timestamp(6)
+  ctcr_target_prog_id      String?
+  ctcr_target_prog_dt      DateTime? @db.Timestamp(6)
+  ctcr_sys_cre_dt          DateTime? @db.Timestamp(6)
+  ctcr_sys_upd_dt          DateTime? @db.Timestamp(6)
+  ctcr_event_id            Decimal?  @db.Decimal(12, 0)
+  ctcr_source_appl_name    String?
+  ctcr_source_publish_id   Decimal?  @db.Decimal(10, 0)
+  ctcr_source_event_id     Decimal?  @db.Decimal(12, 0)
+  ctcr_source_message_name String?
+
+  @@index([process_code], map: "jesi_wf_process_trc_1ix")
+  @@index([process_end_time, process_code, process_id], map: "jesi_wf_process_trc_3ix")
+  @@index([ctcr_sys_cre_dt, process_status, bpm_process_id, process_code], map: "jesi_wf_process_trc_4ix")
+  @@index([root_process_id, process_id], map: "jesi_wf_process_trc_5ix")
+  @@index([process_code, process_status, process_start_time, process_end_time, process_id], map: "jesi_wf_process_trc_6ix")
+  @@index([bpm_process_id, process_id, process_status, root_process_id], map: "jesi_wf_process_trc_7ix")
+}
+
+model jesi_wf_purge_and_archive {
+  message_id           String    @id @default(dbgenerated("gen_random_uuid()"))
+  message_name         String
+  message_data         String
+  message_status       String?
+  error_message        String?
+  error_number         String?
+  source_app           String?
+  source_id            String?
+  monitor_status       String?
+  retry_count          Decimal?  @db.Decimal(3, 0)
+  message_type         String?
+  correlation_id       String?
+  publish_error_status String?
+  server_id            String?
+  ctcr_user_id         String?
+  ctcr_source_prog_id  String?
+  ctcr_source_prog_dt  DateTime? @db.Timestamp(6)
+  ctcr_target_prog_id  String?
+  ctcr_target_prog_dt  DateTime? @db.Timestamp(6)
+  ctcr_sys_cre_dt      DateTime? @db.Timestamp(6)
+  ctcr_sys_upd_dt      DateTime? @db.Timestamp(6)
+}
+
+model jesi_wf_reject_reason {
+  reason_code              String    @id(map: "jesi_wf_reject_reason_pk")
+  reason_desc              String
+  ctrl_data_last_oper_id   String?
+  ctrl_data_last_oper_date DateTime? @db.Timestamp(6)
+}
+
+model jesi_wf_sub_dispatcher {
+  subscribe_message_id     Decimal   @id(map: "jesi_wf_sub_dispatcher_pk") @db.Decimal(18, 0)
+  message_name             String
+  message_data             String
+  message_status           String?
+  error_message            String?
+  error_number             String?
+  source_app               String?
+  source_id                Decimal?  @db.Decimal(18, 0)
+  monitor_status           String?
+  retry_count              Decimal?  @db.Decimal(3, 0)
+  case_key                 String?
+  message_type             String?
+  parallel_key             Decimal?  @db.Decimal(20, 0)
+  serial_prev_id           Decimal?  @db.Decimal(15, 0)
+  correlation_id           String?
+  publish_error_status     String?
+  entity_id                Decimal?  @db.Decimal(20, 0)
+  process_id               String?
+  flow_name                String?
+  root_process_id          String?
+  parent_process_id        String?
+  task_id                  String?
+  resume_node_id           String?
+  ctcr_user_id             String?
+  ctcr_source_prog_id      String?
+  ctcr_source_prog_dt      DateTime? @db.Timestamp(6)
+  ctcr_target_prog_id      String?
+  ctcr_target_prog_dt      DateTime? @db.Timestamp(6)
+  ctcr_sys_cre_dt          DateTime? @db.Timestamp(6)
+  ctcr_sys_upd_dt          DateTime? @db.Timestamp(6)
+  ctcr_event_id            Decimal?  @db.Decimal(12, 0)
+  ctcr_source_appl_name    String?
+  ctcr_source_publish_id   Decimal?  @db.Decimal(10, 0)
+  ctcr_source_event_id     Decimal?  @db.Decimal(12, 0)
+  ctcr_source_message_name String?
+
+  @@unique([message_status, ctcr_sys_cre_dt, ctcr_sys_upd_dt, source_id, retry_count, source_app, subscribe_message_id], map: "jesi_wf_sub_dispatcher_2ix")
+}
+
+model jesi_wf_sub_executer {
+  subscribe_message_id     Decimal   @id(map: "jesi_wf_sub_executer_pk") @db.Decimal(18, 0)
+  message_name             String
+  message_data             String
+  message_status           String?
+  error_message            String?
+  error_number             String?
+  source_app               String?
+  source_id                Decimal?  @db.Decimal(18, 0)
+  monitor_status           String?
+  retry_count              Decimal?  @db.Decimal(3, 0)
+  case_key                 String?
+  message_type             String?
+  parallel_key             Decimal?  @db.Decimal(20, 0)
+  serial_prev_id           Decimal?  @db.Decimal(15, 0)
+  correlation_id           String?
+  publish_error_status     String?
+  entity_id                Decimal?  @db.Decimal(20, 0)
+  process_id               String?
+  flow_name                String?
+  root_process_id          String?
+  parent_process_id        String?
+  task_id                  String?
+  resume_node_id           String?
+  rule_name                String?
+  subscription_id          String?
+  ctcr_user_id             String?
+  ctcr_source_prog_id      String?
+  ctcr_source_prog_dt      DateTime? @db.Timestamp(6)
+  ctcr_target_prog_id      String?
+  ctcr_target_prog_dt      DateTime? @db.Timestamp(6)
+  ctcr_sys_cre_dt          DateTime? @db.Timestamp(6)
+  ctcr_sys_upd_dt          DateTime? @db.Timestamp(6)
+  ctcr_event_id            Decimal?  @db.Decimal(12, 0)
+  ctcr_source_appl_name    String?
+  ctcr_source_publish_id   Decimal?  @db.Decimal(10, 0)
+  ctcr_source_event_id     Decimal?  @db.Decimal(12, 0)
+  ctcr_source_message_name String?
+
+  @@unique([message_status, ctcr_sys_cre_dt, ctcr_sys_upd_dt, source_id, retry_count, source_app, subscribe_message_id], map: "jesi_wf_sub_executer_2ix")
+  @@unique([source_id, subscription_id, subscribe_message_id], map: "jesi_wf_sub_executer_3ix")
+  @@index([message_status, process_id], map: "jesi_wf_sub_executer_1ix")
+  @@index([ctcr_source_message_name, message_status, ctcr_sys_upd_dt], map: "jesi_wf_sub_executer_4ix")
+  @@index([process_id, ctcr_sys_cre_dt], map: "jesi_wf_sub_executer_5ix")
+}
+
+model jesi_wf_sub_instance {
+  subscription_id     Decimal   @id(map: "jesi_wf_sub_instance_pk") @db.Decimal(18, 0)
+  rule_name           String
+  message_name        String
+  process_id          String
+  node_id             String
+  filter_value        String?
+  process_scope       String?
+  server_id           String?
+  ctcr_source_prog_dt DateTime? @db.Timestamp(6)
+
+  @@unique([rule_name, process_id], map: "jesi_wf_sub_instance_uix1")
+  @@index([rule_name, filter_value], map: "jesi_wf_sub_instance_fvix")
+  @@index([process_id, node_id], map: "jesi_wf_sub_instance_ix1")
+}
+
+model jesi_wf_task_def {
+  task_code                String    @id(map: "jesi_wf_task_def_pk")
+  task_name                String?
+  task_desc                String?
+  task_type                String?
+  task_priority            Decimal?  @db.Decimal(2, 0)
+  assignee_group           String?
+  assignee_owner           String?
+  assignee_algorithm       String?
+  xml_data_ref             String?
+  calendar                 String?
+  completion_duration      String?
+  claim_due_duration       String?
+  completion_overdue_task  String?
+  claim_overdue_task       String?
+  on_created_msg           String?
+  on_aborted_msg           String?
+  on_completed_msg         String?
+  acl                      String?
+  acl_role                 String?
+  ctrl_data_last_oper_id   Decimal?  @db.Decimal(6, 0)
+  ctrl_data_last_oper_date DateTime? @db.Timestamp(6)
+}
+
+model jesi_wf_task_instance {
+  task_id               String    @id(map: "jesi_wf_task_pk")
+  process_id            String
+  root_process_id       String?
+  parent_process_id     String?
+  process_name          String?
+  task_code             String?
+  task_name             String?
+  task_desc             String?
+  task_status           String?
+  task_previous_status  String?
+  associate_task_id     String?
+  group_task_id         String?
+  group_status          String?
+  reject_reason         String?
+  calendar_code         String?
+  creation_date         DateTime? @db.Timestamp(6)
+  initial_start_date    DateTime? @db.Timestamp(6)
+  last_start_date       DateTime? @db.Timestamp(6)
+  last_pause_date       DateTime? @db.Timestamp(6)
+  claim_due_date        DateTime? @db.Timestamp(6)
+  completion_due_date   DateTime? @db.Timestamp(6)
+  completion_date       DateTime? @db.Timestamp(6)
+  initial_claim_date    DateTime? @db.Timestamp(6)
+  last_claim_date       DateTime? @db.Timestamp(6)
+  actual_work_time      Decimal?  @db.Decimal(15, 3)
+  assignee_user         String?
+  assignee_group        String?
+  task_owner            String?
+  task_details          String?
+  task_priority         Decimal?  @db.Decimal(2, 0)
+  assigned_by           String?
+  note_id               String?
+  xml_data              String?
+  task_variables        Bytes?
+  server_id             String?
+  ctcr_user_id          String?
+  ctcr_source_prog_id   String?
+  ctcr_source_prog_dt   DateTime? @db.Timestamp(6)
+  ctcr_sys_cre_dt       DateTime? @db.Timestamp(6)
+  ctcr_sys_upd_dt       DateTime? @db.Timestamp(6)
+  ctcr_source_appl_name String?
+  include_variables_ind String?
+
+  @@index([process_id], map: "jesi_wf_task_instance_1ix")
+  @@index([root_process_id], map: "jesi_wf_task_instance_2ix")
+  @@index([parent_process_id], map: "jesi_wf_task_instance_3ix")
+  @@index([group_task_id], map: "jesi_wf_task_instance_4ix")
+  @@index([creation_date], map: "jesi_wf_task_instance_5ix")
+  @@index([task_name], map: "jesi_wf_task_instance_6ix")
+  @@index([task_status], map: "jesi_wf_task_instance_7ix")
+}
+
+/// This table is a partition table and requires additional setup for migrations. Visit https://pris.ly/d/partition-tables for more info.
+model jesi_wf_task_instance_variables {
+  task_id         String
+  task_variables  Bytes?
+  ctcr_sys_cre_dt DateTime @db.Timestamp(6)
+  ctcr_sys_upd_dt DateTime @db.Timestamp(6)
+
+  @@id([task_id, ctcr_sys_cre_dt], map: "jesi_wf_task_variables_pk")
+}
+
+model jesi_wf_task_lock {
+  task_id   String   @id(map: "jesi_wf_task_lock_pk")
+  user_id   String
+  lock_time DateTime @db.Timestamp(6)
+}
+
+model jesi_wf_task_trc {
+  task_id                  String    @id(map: "jesi_wf_task_trc_pk")
+  task_name                String?
+  task_code                String?
+  bpm_task_id              String
+  process_id               String?
+  associate_task_id        String?
+  group_task_id            String?
+  group_status             String?
+  group_name               String?
+  employee_name            String?
+  creation_date            DateTime? @db.Timestamp(6)
+  initial_start_date       DateTime? @db.Timestamp(6)
+  last_start_date          DateTime? @db.Timestamp(6)
+  last_pause_date          DateTime? @db.Timestamp(6)
+  completion_due_date      DateTime? @db.Timestamp(6)
+  completion_date          DateTime? @db.Timestamp(6)
+  initial_claim_date       DateTime? @db.Timestamp(6)
+  last_claim_date          DateTime? @db.Timestamp(6)
+  actual_work_time         Decimal?  @db.Decimal(15, 3)
+  assignee_user            String?
+  assignee_group           String?
+  task_owner               String?
+  task_details             String?
+  task_priority            Decimal?  @db.Decimal(2, 0)
+  task_status              String?
+  assigned_by              String?
+  return_to_group          String?
+  xml_data                 String?
+  approval_status          String?
+  acknowledge_ind          String?
+  unclear_ind              String?
+  skip_ind                 String?
+  reject_reason            String?
+  calendar_code            String?
+  ctcr_user_id             String?
+  ctcr_source_prog_id      String?
+  ctcr_source_prog_dt      DateTime? @db.Timestamp(6)
+  ctcr_target_prog_id      String?
+  ctcr_target_prog_dt      DateTime? @db.Timestamp(6)
+  ctcr_sys_cre_dt          DateTime? @db.Timestamp(6)
+  ctcr_sys_upd_dt          DateTime? @db.Timestamp(6)
+  ctcr_event_id            Decimal?  @db.Decimal(12, 0)
+  ctcr_source_appl_name    String?
+  ctcr_source_publish_id   Decimal?  @db.Decimal(10, 0)
+  ctcr_source_event_id     Decimal?  @db.Decimal(12, 0)
+  ctcr_source_message_name String?
+
+  @@index([ctcr_sys_cre_dt, task_code, task_details], map: "jesi_wf_task_trc_10ix")
+  @@index([ctcr_sys_upd_dt, task_id], map: "jesi_wf_task_trc_11ix")
+  @@index([process_id], map: "jesi_wf_task_trc_12ix")
+  @@index([assignee_user, task_status, assignee_group], map: "jesi_wf_task_trc_1ix")
+  @@index([assignee_group, process_id], map: "jesi_wf_task_trc_2ix")
+  @@index([assignee_group, process_id], map: "jesi_wf_task_trc_3ix")
+  @@index([task_status], map: "jesi_wf_task_trc_4ix")
+  @@index([creation_date, task_status, task_code, process_id], map: "jesi_wf_task_trc_5ix")
+  @@index([bpm_task_id, task_id], map: "jesi_wf_task_trc_6ix")
+  @@index([task_code, task_status], map: "jesi_wf_task_trc_7ix")
+  @@index([assignee_group, task_status], map: "jesi_wf_task_trc_8ix")
+  @@index([ctcr_sys_upd_dt, task_code], map: "jesi_wf_task_trc_9ix")
+}
+
+model jesi_wf_uddi {
+  service_name        String  @id
+  application_name    String
+  service_endpoint    String
+  service_description String?
+}
+
+model jesi_wf_user {
+  employee_id              String
+  group_code               String
+  inactive_date            DateTime? @db.Timestamp(6)
+  event_status             String?
+  regular_member_ind       String?
+  active_ind               String
+  calendar_code            String?
+  ctrl_data_last_oper_id   String?
+  ctrl_data_last_oper_date DateTime? @db.Timestamp(6)
+
+  @@id([employee_id, group_code], map: "jesi_wf_user_pk")
+}
+
+model keys_management {
+  key_value             String
+  key_type              String
+  effective_date        DateTime? @db.Timestamp(6)
+  expiration_date       DateTime? @db.Timestamp(6)
+  additional_parameters Json?     @db.Json
+  ctrl_create_time      DateTime? @db.Timestamp(6)
+  ctrl_prog_id          String?
+  ctrl_update_time      DateTime? @db.Timestamp(6)
+
+  @@id([key_value, key_type])
+}
+
+model label_rules_mapping {
+  label_id                 String
+  rule_id                  String
+  ctrl_data_last_oper_date DateTime? @db.Timestamp(6)
+  ctrl_data_last_oper_id   String?
+
+  @@id([label_id, rule_id], map: "label_rules_mapping_pk")
+}
+
+model labels {
+  label_domain             String?
+  active                   String?
+  label_id                 String    @id(map: "labels_pk")
+  label_description        String?
+  mnp_code                 String?
+  label_category           String?
+  label_style              String?
+  label_severity           String?
+  label_weight             Decimal?  @unique @db.Decimal
+  ctrl_data_last_oper_date DateTime? @db.Timestamp(6)
+  ctrl_data_last_oper_id   String?
+}
+
+model lockbox_control {
+  source_type     String
+  source_id       String
+  next_sequence   String @id
+  last_generation String
+}
+
+model main_migration_list {
+  guid                        String   @id(map: "mml_pk") @db.Uuid
+  migration_id                String
+  migration_date              DateTime @db.Date
+  migrate_retry               Int
+  status                      String
+  event_id                    String
+  source_ban_id               String
+  target_ban_id               String
+  target_customer_id          String
+  service_type                String
+  source_cycle_id             String
+  target_cycle_id             String
+  ctrl_cre_date               DateTime @db.Timestamp(6)
+  ctrl_upd_date               DateTime @db.Timestamp(6)
+  ctrl_prod_id                String
+  relevant_ihaps              String?
+  migration_station           String
+  current_station_update_date DateTime @db.Timestamp(6)
+  migration_next_station      String
+  next_station_update_date    DateTime @db.Timestamp(6)
+  ban_color                   String?
+  station_status              String
+  station_status_description  String?
+
+  @@index([migration_id], map: "mml_ix1")
+  @@index([migration_id, source_ban_id], map: "mml_ix2")
+}
+
+model mass_activity_resolution {
+  mass_context_id           String    @id(map: "mass_activity_resolution_pk")
+  mass_operation            String
+  resolution_status         String
+  mass_request_file_name    String?
+  mass_request_file_content Bytes?
+  failure_reason            String?
+  ctcr_sys_cre_dt           DateTime  @db.Timestamp(6)
+  ctcr_sys_upd_dt           DateTime? @db.Timestamp(6)
+  ctcr_source_prog_id       String?
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model mass_mnp_template {
+  domain                 String? @db.VarChar
+  mass_type              String
+  mass_sub_type          String
+  mnp                    String
+  headerfields           String? @db.VarChar
+  inputfields            String? @db.VarChar
+  mappedsubtype          String?
+  additionalfields       String?
+  uplift_additional_data String?
+  uplift_resolution_data String?
+
+  @@index([mass_type, mass_sub_type], map: "mass_mnp_template_1ix")
+  @@ignore
+}
+
+model migration_control {
+  migration_id        String    @id
+  service_type        String?
+  migration_directive String?
+  migration_status    String
+  migration_rate      String?
+  ctrl_cre_date       DateTime  @db.Timestamp(6)
+  ctrl_upd_date       DateTime? @db.Timestamp(6)
+  ctrl_prog_id        String?
+}
+
+model migration_control_history {
+  migration_id              String
+  service_type              String?
+  migration_control_version BigInt    @default(autoincrement())
+  migration_directive       String?
+  migration_status          String
+  migration_rate            String?
+  ctrl_cre_date             DateTime  @db.Timestamp(6)
+  ctrl_upd_date             DateTime? @db.Timestamp(6)
+  ctrl_prog_id              String?
+
+  @@id([migration_id, migration_control_version])
+}
+
+model migration_customer_data {
+  customer_ban String  @id(map: "cmig_pk")
+  station_name String
+  status       String
+  migration_id String?
+  duration     String?
+}
+
+model migration_excluded_bans {
+  source_ban_id    String
+  service_type     String
+  exclusion_status String
+  status_reason    String
+  ctrl_cre_date    DateTime  @db.Timestamp(6)
+  ctrl_upd_date    DateTime? @db.Timestamp(6)
+  ctrl_prog_id     String?
+
+  @@id([source_ban_id, service_type])
+}
+
+model migration_excluded_markets {
+  source_market_code String    @id
+  exclusion_status   String
+  status_reason      String
+  ctrl_cre_date      DateTime  @db.Timestamp(6)
+  ctrl_upd_date      DateTime? @db.Timestamp(6)
+  ctrl_prog_id       String?
+}
+
+model migration_offline_status {
+  migration_id       String
+  source_ban_id      String
+  version            Int
+  target_ba_id       String
+  service_type       String
+  source_market_code String
+  event_type         String
+  appl_name          String
+  status             String
+  status_description String?
+  ctrl_cre_date      DateTime  @db.Timestamp(6)
+  ctrl_upd_date      DateTime? @db.Timestamp(6)
+  ctrl_prog_id       String?
+
+  @@id([migration_id, source_ban_id, version])
+}
+
+model migration_status {
+  migration_id       String
+  source_ban_id      String
+  source_market_code String
+  status             String
+  sub_status         String
+  service_type       String
+  target_ba_id       String?
+  source_cycle_id    String?
+  status_description String?
+  guid               String?
+  ctrl_cre_date      DateTime  @db.Timestamp(6)
+  ctrl_upd_date      DateTime? @db.Timestamp(6)
+  ctrl_prog_id       String?
+
+  @@id([migration_id, source_ban_id])
+}
+
+model migration_status_history {
+  migration_id             String
+  source_ban_id            String
+  migration_status_version BigInt    @default(autoincrement())
+  source_market_code       String
+  status                   String
+  sub_status               String
+  service_type             String
+  target_ba_id             String?
+  source_cycle_id          String?
+  status_description       String?
+  guid                     String?
+  ctrl_cre_date            DateTime  @db.Timestamp(6)
+  ctrl_upd_date            DateTime? @db.Timestamp(6)
+  ctrl_prog_id             String?
+
+  @@id([migration_id, source_ban_id, migration_status_version])
+}
+
+model migration_status_sla_automation {
+  migration_id       String
+  source_ban_id      String
+  source_market_code String
+  status             String
+  sub_status         String
+  service_type       String
+  target_ba_id       String?
+  source_cycle_id    String?
+  status_description String?
+  guid               String?
+  ctrl_cre_date      DateTime  @db.Timestamp(6)
+  ctrl_upd_date      DateTime? @db.Timestamp(6)
+  ctrl_prog_id       String?
+
+  @@id([migration_id, source_ban_id, sub_status])
+}
+
+model mnp_ref {
+  mnp_code                 String    @id(map: "mnp_ref_pk")
+  mnp_desc                 String?
+  mnp_type                 String?
+  mnp_doc                  String?
+  assign_group             String?
+  ctrl_data_last_oper_id   String?
+  ctrl_data_last_oper_date DateTime? @db.Timestamp(6)
+}
+
+model mnp_ticket_override {
+  rule_id                  String    @id(map: "mnp_ticket_override_pk")
+  rule_type                String?
+  active                   String?
+  env_code                 String?
+  stack_trace              String?
+  mnp_code                 String?
+  error_code               String?
+  error_description        String?
+  new_mnp_code             String?
+  mnp_def                  String?
+  mnp_pdf_exist            String?
+  rule_weight              Decimal?  @db.Decimal(19, 0)
+  ctrl_data_last_oper_date DateTime? @db.Timestamp(6)
+  ctrl_data_last_oper_id   String?
+  script                   String?
+  resolution_status        String?
+  script_description       String?
+}
+
+model og_batch_control {
+  id                  Decimal   @id(map: "og_batch_control_pk") @db.Decimal(15, 0)
+  batch_id            String?
+  process_name        String
+  param1              String?
+  param2              String?
+  param3              String?
+  status              String
+  cleanup_action      String
+  record_count        Decimal?  @db.Decimal(15, 0)
+  error_record_count  Decimal?  @db.Decimal(15, 0)
+  error_message       String?
+  error_number        String?
+  batch_start_time    DateTime? @db.Date
+  batch_end_time      DateTime? @db.Date
+  file_name           String?
+  proc_step           String?
+  owner_server_id     String?
+  ctcr_user_id        String?
+  ctcr_source_prog_id String?
+  ctcr_source_prog_dt DateTime? @db.Date
+  ctcr_target_prog_id String?
+  ctcr_target_prog_dt DateTime? @db.Date
+  ctcr_sys_cre_dt     DateTime? @db.Date
+  ctcr_sys_upd_dt     DateTime? @db.Date
+
+  @@index([process_name], map: "og_batch_control_ix1")
+  @@index([status], map: "og_batch_control_ix2")
+  @@index([owner_server_id], map: "og_batch_control_ix3")
+}
+
+model og_batch_scheduler {
+  id                   Decimal   @id(map: "og_batch_scheduler_pk") @db.Decimal(15, 0)
+  schedule_id          String?
+  process_name         String
+  schedule_policy      String
+  recurrence_frequency String?
+  param1               String?
+  param2               String?
+  param3               String?
+  schedule_status      String
+  cleanup_action       String
+  record_count         Decimal?  @db.Decimal(15, 0)
+  error_record_count   Decimal?  @db.Decimal(15, 0)
+  error_message        String?
+  error_number         String?
+  start_date           DateTime? @db.Timestamp(6)
+  end_date             DateTime? @db.Timestamp(6)
+  file_name            String?
+  proc_step            String?
+  owner_server_id      String?
+  ctcr_user_id         String?
+  ctcr_source_prog_id  String?
+  ctcr_source_prog_dt  DateTime? @db.Date
+  ctcr_target_prog_id  String?
+  ctcr_target_prog_dt  DateTime? @db.Date
+  ctcr_sys_cre_dt      DateTime? @db.Timestamp(6)
+  ctcr_sys_upd_dt      DateTime? @db.Timestamp(6)
+  is_active            String
+
+  @@index([schedule_id], map: "og_batch_scheduler_ix1")
+  @@index([ctcr_sys_upd_dt], map: "og_batch_scheduler_ix2")
+}
+
+model onboarding_processes {
+  process_source String?
+  status         String?
+  start_time     DateTime? @db.Timestamp(6)
+  end_time       DateTime? @db.Timestamp(6)
+  total_bans     String?
+  process_id     String    @id
+}
+
+model op_logical_date {
+  logical_date_type String   @id
+  logical_date_name String
+  logical_date      DateTime @db.Timestamp(6)
+  creation_date     DateTime @db.Timestamp(6)
+  update_date       DateTime @db.Timestamp(6)
+  operator_id       String
+}
+
+model organization {
+  organization_id          String    @id
+  organization_name        String?
+  esim_ui_configuration    String?
+  op_ui_configuration      String?
+  ctrl_data_last_oper_id   String?
+  ctrl_data_last_oper_date DateTime? @db.Timestamp(6)
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model payments {
+  credit_card_authorization_code String?
+  ban                            String  @id
+  bank_account_number            String?
+  bank_code                      String?
+  deposit_date                   String?
+  batch_number                   String?
+  batch_line_no                  String?
+  market_code                    String?
+  original_amount                String?
+  amount_due                     String?
+  payment_method                 String?
+  check_number                   String?
+  subscriber_number              String?
+  coupon_gift_cert_number        String?
+  receipt_id                     String?
+  payment_type                   String?
+  payment_sub_method             String?
+  deposit_indicator              String?
+  payment_amount                 Decimal @db.Decimal
+  credit_card_number             String  @db.VarChar(4)
+}
+
+/// This table is a partition table and requires additional setup for migrations. Visit https://pris.ly/d/partition-tables for more info.
+model pre_bill_estimate_sequence {
+  recordsequencenumber String   @db.Uuid
+  becorrelationid      String   @db.VarChar(50)
+  billestimatestepname String?  @db.VarChar(50)
+  rtbmsname            String?  @db.VarChar(50)
+  apiname              String?  @db.VarChar(500)
+  apisignature         String?  @db.VarChar(500)
+  request              String?
+  response             String?
+  recorddate           DateTime @db.Date
+
+  @@id([recordsequencenumber, recorddate, becorrelationid])
+  @@index([becorrelationid], map: "idx_pre_bill_estimate_sequence_be_correlation_id")
+}
+
+model preference_translator {
+  pref_key    String  @id(map: "preference_translator_pk")
+  pref_type   String?
+  pref_desc   String?
+  pref_domain String?
+}
+
+model priority_customer {
+  account_uid      String    @id
+  account_type     String?
+  account_sub_type String?
+  ctrl_create_time DateTime? @db.Timestamp(6)
+  ctrl_update_time DateTime? @db.Timestamp(6)
+}
+
+model recipients {
+  recipient_id    Decimal @db.Decimal(15, 0)
+  recipient_name  String
+  recipient_email String
+  is_active       String
+  user_id         String? @unique(map: "recipients_unique1")
+
+  @@id([recipient_name, recipient_email], map: "recipients_pk1")
+  @@index([recipient_id], map: "recipients_ix1")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model report2_errors {
+  report_id   DateTime? @db.Timestamp(6)
+  errorcode   String?
+  envcod      String?
+  hndrol      String?
+  open_tasks  Int
+  close_tasks Int
+  close_0_15  Int
+  close_16_30 Int
+  close_31_45 Int
+  close_46_60 Int
+  open_0_15   Int
+  open_16_30  Int
+  open_31_45  Int
+  open_46_60  Int
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model report_automation {
+  report_id        DateTime? @db.Timestamp(6)
+  mnpcod           String?   @db.VarChar
+  today            BigInt?
+  last_week        BigInt?
+  last_month       BigInt?
+  last_three_month BigInt?
+  last_six_month   BigInt?
+  last_year        BigInt?
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model report_errors {
+  report_id         DateTime? @db.Timestamp(6)
+  estx13            String?
+  error_description String?
+  envcod            String?   @db.VarChar(20)
+  estx25            String?
+  total_tasks       BigInt?
+  aborted_tasks     BigInt?
+  acquired_tasks    BigInt?
+  completed_tasks   BigInt?
+  new_tasks         BigInt?
+  started_tasks     BigInt?
+  overdue_tasks     BigInt?
+  suspeneded_tasks  BigInt?
+  category          String?
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model report_errors_temp {
+  estx13            String?
+  error_description String?
+  envcod            String? @db.VarChar(20)
+  estx25            String?
+  total_tasks       BigInt?
+  aborted_tasks     BigInt?
+  acquired_tasks    BigInt?
+  completed_tasks   BigInt?
+  new_tasks         BigInt?
+  started_tasks     BigInt?
+  overdue_tasks     BigInt?
+  suspeneded_tasks  BigInt?
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model report_errors_today {
+  report_id         DateTime? @db.Timestamp(6)
+  estx13            String?
+  error_description String?
+  envcod            String?   @db.VarChar(20)
+  estx25            String?
+  total_tasks       BigInt?
+  aborted_tasks     BigInt?
+  acquired_tasks    BigInt?
+  completed_tasks   BigInt?
+  new_tasks         BigInt?
+  started_tasks     BigInt?
+  overdue_tasks     BigInt?
+  suspeneded_tasks  BigInt?
+  category          String?
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model report_errors_today_temp {
+  estx13            String?
+  error_description String?
+  envcod            String? @db.VarChar(20)
+  estx25            String?
+  total_tasks       BigInt?
+  aborted_tasks     BigInt?
+  acquired_tasks    BigInt?
+  completed_tasks   BigInt?
+  new_tasks         BigInt?
+  started_tasks     BigInt?
+  overdue_tasks     BigInt?
+  suspeneded_tasks  BigInt?
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model report_mnps {
+  report_id        DateTime? @db.Timestamp(6)
+  mnpcod           String?   @db.VarChar(128)
+  envcod           String?   @db.VarChar(20)
+  total_tasks      BigInt?
+  aborted_tasks    BigInt?
+  acquired_tasks   BigInt?
+  completed_tasks  BigInt?
+  new_tasks        BigInt?
+  started_tasks    BigInt?
+  overdue_tasks    BigInt?
+  suspeneded_tasks BigInt?
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model report_mnps_temp {
+  mnpcod           String? @db.VarChar(128)
+  envcod           String? @db.VarChar(20)
+  total_tasks      BigInt?
+  aborted_tasks    BigInt?
+  acquired_tasks   BigInt?
+  completed_tasks  BigInt?
+  new_tasks        BigInt?
+  started_tasks    BigInt?
+  overdue_tasks    BigInt?
+  suspeneded_tasks BigInt?
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model report_mnps_today {
+  report_id        DateTime? @db.Timestamp(6)
+  mnpcod           String?   @db.VarChar(128)
+  envcod           String?   @db.VarChar(20)
+  total_tasks      BigInt?
+  aborted_tasks    BigInt?
+  acquired_tasks   BigInt?
+  completed_tasks  BigInt?
+  new_tasks        BigInt?
+  started_tasks    BigInt?
+  overdue_tasks    BigInt?
+  suspeneded_tasks BigInt?
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model report_mnps_today_temp {
+  mnpcod           String? @db.VarChar(128)
+  envcod           String? @db.VarChar(20)
+  total_tasks      BigInt?
+  aborted_tasks    BigInt?
+  acquired_tasks   BigInt?
+  completed_tasks  BigInt?
+  new_tasks        BigInt?
+  started_tasks    BigInt?
+  overdue_tasks    BigInt?
+  suspeneded_tasks BigInt?
+
+  @@ignore
+}
+
+model rtb_refer_type {
+  refer_type               String  @db.VarChar
+  model                    String  @db.VarChar
+  order_id_xpath           String? @db.VarChar
+  customer_id_xpath        String? @db.VarChar
+  billing_account_id_xpath String? @db.VarChar
+  billcycle_id_xpath       String? @db.VarChar
+  reftrx_id_xpath          String? @db.VarChar
+  priority                 String? @db.VarChar
+
+  @@id([refer_type, model])
+}
+
+model rules {
+  rule_id                  String    @id(map: "rules_pk")
+  rule_conditions          String?
+  conditions_raw_data      String?
+  rule_type                String?
+  rule_weight              Decimal?  @unique @db.Decimal
+  rule_category            String?
+  active                   String?
+  ctrl_data_last_oper_date DateTime? @db.Timestamp(6)
+  ctrl_data_last_oper_id   String?
+}
+
+model sec_alias {
+  alias_id                 String    @id
+  cf_creation_date         DateTime? @db.Timestamp(6)
+  cf_update_date           DateTime? @db.Timestamp(6)
+  cf_update_principal_name String?
+  cf_application_id        String?
+  cf_host                  String?
+  cf_additional_info       String?
+  user_id                  String?
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model sec_event {
+  partition_id     Decimal?  @db.Decimal(4, 0)
+  event_date       DateTime? @db.Timestamp(6)
+  event_timestamp  Decimal?  @db.Decimal(19, 0)
+  event_bundle_id  String?
+  event_type       Decimal?  @db.Decimal(8, 0)
+  event_severity   Decimal?  @db.Decimal(19, 0)
+  event_facility   Decimal?  @db.Decimal(19, 0)
+  event_host       String?
+  event_process    String?
+  event_system     String?
+  event_session_id String?
+  event_principal  String?
+  object_id        String?
+  object_type      String?
+  client_host      String?
+  access_host      String?
+  scope_id         String?
+  status           Decimal?  @db.Decimal(19, 0)
+  object_history   Decimal?  @db.Decimal(19, 0)
+  event_details    String?
+
+  @@ignore
+}
+
+model sec_key {
+  key_id                   String    @id
+  cf_creation_date         DateTime? @db.Timestamp(6)
+  cf_update_date           DateTime? @db.Timestamp(6)
+  cf_update_principal_name String?
+  cf_application_id        String?
+  cf_host                  String?
+  cf_additional_info       String?
+  key_length               Decimal?  @db.Decimal(8, 0)
+  algorithm_name           String?
+  algorithm_mode           String?
+  algorithm_padding        String?
+  format                   String?
+  expiration_date          DateTime? @db.Timestamp(6)
+  flags                    Decimal?  @db.Decimal(19, 0)
+  usage_counter            Decimal?  @db.Decimal(19, 0)
+  formatted_key            String?
+}
+
+model sec_policy {
+  policy_id                String    @id
+  cf_creation_date         DateTime? @db.Timestamp(6)
+  cf_update_date           DateTime? @db.Timestamp(6)
+  cf_update_principal_name String?
+  cf_application_id        String?
+  cf_host                  String?
+  cf_additional_info       String?
+  scope_id                 String?
+  ser_data                 Bytes?
+}
+
+model sec_resource {
+  resource_id              String    @id
+  cf_creation_date         DateTime? @db.Timestamp(6)
+  cf_update_date           DateTime? @db.Timestamp(6)
+  cf_update_principal_name String?
+  cf_application_id        String?
+  cf_host                  String?
+  cf_additional_info       String?
+  scope_id                 String?
+  resource_type            String?
+  ser_data                 Bytes?
+}
+
+model sec_role {
+  role_id                  String    @id
+  cf_creation_date         DateTime? @db.Timestamp(6)
+  cf_update_date           DateTime? @db.Timestamp(6)
+  cf_update_principal_name String?
+  cf_application_id        String?
+  cf_host                  String?
+  cf_additional_info       String?
+  scope_id                 String?
+  role_type                Int?
+  ser_data                 Bytes?
+}
+
+model sec_roles_map {
+  external_role_name String
+  local_role_name    String
+
+  @@id([external_role_name, local_role_name])
+}
+
+model sec_session {
+  session_id  String   @id
+  user_id     String?
+  expiration  Decimal? @db.Decimal(19, 0)
+  client_host String?
+  access_host String?
+  status      String?
+  ser_data    Bytes?
+
+  @@index([user_id], map: "sec_session_1ix")
+}
+
+model sec_session_idle {
+  session_id String   @id
+  idle       Decimal? @db.Decimal(19, 0)
+  replicated String?
+}
+
+model sec_user {
+  user_id                  String    @id
+  cf_creation_date         DateTime? @db.Timestamp(6)
+  cf_update_date           DateTime? @db.Timestamp(6)
+  cf_update_principal_name String?
+  cf_application_id        String?
+  cf_host                  String?
+  cf_additional_info       String?
+  expiration_date          DateTime? @db.Timestamp(6)
+  effective_date           DateTime? @db.Timestamp(6)
+  last_login_date          DateTime? @db.Timestamp(6)
+  last_bad_login_date      DateTime? @db.Timestamp(6)
+  bad_login_counter        Decimal?  @db.Decimal(19, 0)
+  user_flags               Decimal?  @db.Decimal(19, 0)
+  cred_expiration_date     DateTime? @db.Timestamp(6)
+  user_locked              Decimal?  @db.Decimal(1, 0)
+  user_disabled            Decimal?  @db.Decimal(1, 0)
+  user_active              Decimal?  @db.Decimal(1, 0)
+  parent_user_id           String?
+  ser_data                 Bytes?
+}
+
+model sec_user_info {
+  user_id   String  @id
+  user_type String?
+}
+
+model sec_user_role_r {
+  user_id                  String
+  cf_creation_date         DateTime? @db.Timestamp(6)
+  cf_update_date           DateTime? @db.Timestamp(6)
+  cf_update_principal_name String?
+  cf_application_id        String?
+  cf_host                  String?
+  cf_additional_info       String?
+  role_id                  String
+
+  @@id([user_id, role_id])
+}
+
+model secprof {
+  security_profile         Decimal   @id(map: "secprof_pk") @db.Decimal(2, 0)
+  secur_prof_name          String?
+  secur_prof_desc          String?
+  ctrl_data_last_oper_id   String?
+  ctrl_data_last_oper_date DateTime? @db.Timestamp(6)
+}
+
+model secrole_wf_group {
+  appl_code                String
+  group_code               String
+  security_profile         Decimal   @db.Decimal(3, 0)
+  organization             String?
+  ctrl_data_last_oper_id   String?
+  ctrl_data_last_oper_date DateTime? @db.Timestamp(6)
+
+  @@id([appl_code, group_code, security_profile], map: "secrole_wf_group_pk")
+}
+
+model self_service_report_recipients {
+  report_id    String
+  recipient_id Decimal @db.Decimal(15, 0)
+  scheduler_id Decimal @db.Decimal(15, 0)
+
+  @@id([report_id, recipient_id, scheduler_id], map: "self_service_report_recipients_pk")
+}
+
+model serial_numbers {
+  serial_num String  @id(map: "serial_numbers_pk")
+  available  String?
+  imei       String?
+}
+
+model sky_audit {
+  id                   Int       @id @default(autoincrement())
+  file_name            String
+  rule_name            String
+  recon_session_id     String?
+  ts                   DateTime? @db.Timestamp(6)
+  activity_duration_ms String?
+  loaded_num_records   String?
+  ctrl_create_time     DateTime? @db.Timestamp(6)
+  ctrl_prog_id         String?
+  ctrl_update_time     DateTime? @db.Timestamp(6)
+
+  @@index([file_name, ctrl_create_time], map: "sky_audit_1ix")
+  @@index([rule_name, ctrl_create_time], map: "sky_audit_2ix")
+}
+
+model sky_audit_control {
+  id                        Int       @id @default(autoincrement())
+  file_name                 String
+  rule_name                 String
+  recon_session_id          String?
+  mass_type                 String?
+  mass_sub_type             String?
+  mass_context_id           String?
+  activity_duration_ms      String?
+  activity_status           String?
+  loaded_num_records        Int?
+  error_message             String?
+  ctrl_create_time          DateTime? @db.Timestamp(6)
+  ctrl_update_time          DateTime? @db.Timestamp(6)
+  ctrl_prog_id              String?
+  consumed_num_records      Int?
+  domain                    String?
+  last_consumed_num_records Int?
+  dfs_flag                  String?
+  uplift_status             String?
+  atdmflag                  String?
+  task_id                   String?
+
+  @@index([file_name, ctrl_create_time], map: "sky_audit_control_1ix")
+  @@index([rule_name, ctrl_create_time], map: "sky_audit_control_2ix")
+}
+
+model sky_automatic_refresh {
+  refresh_request_id       String    @id(map: "sky_automatic_refresh_pk")
+  ban_id                   String?
+  subscriber_no            String?
+  ch_obj_id                String?
+  ticket_error_description String?
+  ticket_error_code        String?
+  ticket_mnp_code          String?
+  tktnum                   String?
+  refresh_type             String?
+  ctrl_create_time         DateTime? @db.Timestamp(6)
+  ctrl_update_time         DateTime? @db.Timestamp(6)
+  ctrl_prog_id             String?
+
+  @@index([ban_id], map: "sky_automatic_refresh_1ix")
+  @@index([ticket_error_code], map: "sky_automatic_refresh_2ix")
+  @@index([ticket_mnp_code], map: "sky_automatic_refresh_3ix")
+}
+
+model sky_mass_update {
+  requestid        Int       @id @default(autoincrement())
+  filename         String?
+  functionalkey    String?
+  requestcategory  String?
+  ban              String?
+  requeststatus    String?
+  payload          Json?
+  user_id          String?
+  errorcode        String?
+  errordesc        String?
+  ctrl_create_time DateTime? @db.Timestamp(6)
+  ctrl_update_time DateTime? @db.Timestamp(6)
+  ctrl_prog_id     String?
+
+  @@index([requestcategory, requeststatus], map: "sky_mass_update_1ix")
+}
+
+model sky_migration_catchup_messages {
+  acknowledge_time              DateTime? @db.Timestamp(6)
+  ban_id                        String    @db.VarChar(50)
+  ch_object_id                  String?   @db.VarChar(50)
+  ctrl_create_date_time         DateTime? @db.Timestamp(6)
+  ctrl_prog_id                  String?   @db.VarChar(50)
+  ctrl_update_date_time         DateTime? @db.Timestamp(6)
+  on_prem_ctrl_create_date_time DateTime? @db.Timestamp(6)
+  on_prem_ctrl_update_date_time DateTime? @db.Timestamp(6)
+  on_prem_ctrl_prog_id          String?   @db.VarChar(50)
+  entity                        String    @db.VarChar(50)
+  error_code                    String?   @db.VarChar(50)
+  mgc                           Int
+  migration_id                  String    @db.VarChar(50)
+  error_description             String?   @db.VarChar(255)
+  publish_status                String?   @db.VarChar(50)
+  publish_time                  DateTime? @db.Timestamp(6)
+  status                        String?   @db.VarChar(50)
+  subscriber_id                 String?   @db.VarChar(50)
+  tkn_scn                       String?   @db.VarChar(50)
+  msg_id                        String    @db.VarChar(50)
+
+  @@id([ban_id, entity, mgc, migration_id, msg_id])
+}
+
+model sky_migration_processes {
+  migration_id                  String    @db.VarChar(50)
+  version                       Int
+  migration_start_date_time     DateTime? @db.Timestamp(6)
+  migration_end_date_time       DateTime? @db.Timestamp(6)
+  catchup_end_date_time_test    DateTime? @db.Timestamp(6)
+  catchup_end_date_time_prod    DateTime? @db.Timestamp(6)
+  migration_status              String?   @db.VarChar(50)
+  catchup_status                String?   @db.VarChar(50)
+  total_no_test_bans            Int?
+  total_no_prod_bans            Int?
+  total_no_test_and_prod_bans   Int?
+  total_no_ch_objs              Int?
+  mig_end_tkn_scn               String?   @db.VarChar(50)
+  number_of_sky_executers       Int?
+  number_of_partitions          Int?
+  cpu                           Int?
+  cpu_limits                    Int?
+  cpu_requests                  Int?
+  memory                        Int?
+  memory_limits                 Int?
+  memory_requests               Int?
+  additional_parameters         Json?     @db.Json
+  on_prem_ctrl_create_date_time DateTime? @db.Timestamp(6)
+  on_prem_ctrl_update_date_time DateTime? @db.Timestamp(6)
+  on_prem_ctrl_prog_id          String?   @db.VarChar(50)
+  ctrl_create_date_time         DateTime? @db.Timestamp(6)
+  ctrl_update_date_time         DateTime? @db.Timestamp(6)
+  ctrl_prog_id                  String?   @db.VarChar(50)
+
+  @@id([migration_id, version])
+}
+
+model sky_mm_config_rules {
+  rule_name        String    @id
+  rule_id          String
+  domain           String
+  alias            String?
+  description      String?
+  ctrl_create_time DateTime? @default(now()) @db.Timestamptz(6)
+  ctrl_update_time DateTime? @db.Timestamp(6)
+  ctrl_prog_id     String?
+}
+
+model sky_money_map_ban_recon_list {
+  ban_id              String
+  mm_recon_parent_key String
+  ctrl_create_date    DateTime? @default(now()) @db.Timestamptz(6)
+  ctrl_update_date    DateTime? @db.Timestamp(6)
+  ctrl_prog_id        String?
+
+  @@id([ban_id, mm_recon_parent_key], map: "mm_ban_recon_list_pk")
+}
+
+model sky_money_map_ban_rule {
+  ban_id              String
+  rule_name           String
+  mm_recon_parent_key String
+  ctrl_create_date    DateTime? @default(now()) @db.Timestamptz(6)
+  ctrl_update_date    DateTime? @db.Timestamp(6)
+  ctrl_prog_id        String?
+
+  @@id([ban_id, rule_name, mm_recon_parent_key], map: "mm_ban_rule_pk")
+}
+
+model sky_money_map_recon_control {
+  mm_recon_parent_key String    @id(map: "mm_recon_control_pk")
+  status              String
+  ctrl_create_date    DateTime? @default(now()) @db.Timestamptz(6)
+  ctrl_update_date    DateTime? @db.Timestamp(6)
+  ctrl_prog_id        String
+}
+
+model sky_notification {
+  sequence          Int       @id @default(autoincrement())
+  mnp               String?
+  notification_date DateTime? @db.Date
+  email_to          String?
+  subject           String?
+  body              String?
+  ctrl_create_time  DateTime? @db.Timestamp(6)
+  ctrl_update_time  DateTime? @db.Timestamp(6)
+  ctrl_prog_id      String?
+}
+
+model sky_onboard_by_deamnd_control {
+  refresh_request_id  String    @id(map: "sky_onboard_by_deamnd_control_pk")
+  ban_id              String?
+  status              String?
+  process_id          String?
+  payload             String?
+  external_request_id String?
+  ctrl_create_time    DateTime? @db.Timestamp(6)
+  ctrl_update_time    DateTime? @db.Timestamp(6)
+  ctrl_prog_id        String?
+  user_id             String?
+
+  @@index([ban_id], map: "sky_onboard_by_deamnd_control_ix1")
+  @@index([process_id], map: "sky_onboard_by_deamnd_control_ix2")
+  @@index([status], map: "sky_onboard_by_deamnd_control_ix3")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model sky_open_tickets {
+  report_id  DateTime? @db.Timestamp(6)
+  envcod     String?
+  open_tasks String?
+
+  @@ignore
+}
+
+model sky_pi_sync_failure {
+  transaction_id     String    @id(map: "sky_pi_sync_failure_pk")
+  ban_id             String?
+  subscriber_no      String?
+  refresh_request_id String?
+  refresh_time       DateTime? @db.Timestamp(6)
+  error_description  String?
+  error_code         String?
+  num_of_fallouts    BigInt?
+  ticket_id          String?
+  status             String?
+  ctrl_create_time   DateTime? @default(now()) @db.Timestamptz(6)
+  ctrl_update_time   DateTime? @db.Timestamp(6)
+  ctrl_prog_id       String?
+
+  @@index([ban_id], map: "sky_pi_sync_failure_ix1")
+  @@index([subscriber_no], map: "sky_pi_sync_failure_ix2")
+  @@index([refresh_request_id], map: "sky_pi_sync_failure_ix3")
+  @@index([ticket_id], map: "sky_pi_sync_failure_ix4")
+}
+
+model sky_product_offering_type_to_stream {
+  pot    String @id
+  stream String
+}
+
+model sky_pub_clkdtl {
+  pipeline_code      String?   @db.VarChar(100)
+  entity_type        String    @db.VarChar(100)
+  entity_id          String    @db.VarChar(400)
+  orchestration_code String?   @db.VarChar(100)
+  event_type         String    @db.VarChar(100)
+  event_time         DateTime  @db.Timestamp(6)
+  event_user         String?   @db.VarChar(100)
+  produce_time       DateTime? @db.Timestamp(6)
+  produce_tool       String    @db.VarChar(100)
+  produce_host       String?   @db.VarChar(100)
+  batch_id           String?   @db.VarChar(100)
+  batch_time         DateTime? @db.Timestamp(6)
+  sourcing_ind       String?   @db.VarChar(10)
+  time_frame         String?   @db.VarChar(50)
+  sla_age            Float?
+  clock_code         String    @db.VarChar(100)
+  clock_id           String    @db.VarChar(100)
+  notes              String?   @db.VarChar(1000)
+  idl_ind            String    @db.Char(1)
+  open_time          DateTime  @db.Timestamp(6)
+  complete_time      DateTime? @db.Timestamp(6)
+  calendar_code      String    @db.VarChar(100)
+  shift_code         String    @db.VarChar(100)
+  status             String    @db.VarChar(100)
+
+  @@id([entity_id, clock_code, clock_id], map: "sky_pub_clkdtl_pk")
+}
+
+model sky_pub_tktdtl {
+  pipeline_code      String?   @db.VarChar(100)
+  entity_type        String    @db.VarChar(100)
+  entity_id          String    @id(map: "sky_pub_tktdtl_pk")
+  orchestration_code String?   @db.VarChar(100)
+  event_type         String    @db.VarChar(100)
+  event_time         DateTime  @db.Timestamp(6)
+  event_user         String?   @db.VarChar(100)
+  produce_time       DateTime? @db.Timestamp(6)
+  produce_tool       String    @db.VarChar(100)
+  produce_host       String?   @db.VarChar(100)
+  batch_id           String?   @db.VarChar(100)
+  batch_time         DateTime? @db.Timestamp(6)
+  sourcing_ind       String?   @db.VarChar(10)
+  time_frame         String?   @db.VarChar(50)
+  levcod             String    @db.VarChar(20)
+  envcod             String    @db.VarChar(20)
+  tktdef             String    @db.VarChar(30)
+  tktnum             String
+  cycnum             Decimal   @db.Decimal(38, 0)
+  cycrut             Decimal?  @db.Decimal(38, 0)
+  prnlev             String?   @db.VarChar(20)
+  prnenv             String?   @db.VarChar(20)
+  prnnum             String?   @db.VarChar(256)
+  catcod             String?   @db.VarChar(20)
+  mnpcod             String?   @db.VarChar(128)
+  owncod             String?   @db.VarChar(30)
+  pricod             String?   @db.VarChar(20)
+  slasum             String?   @db.VarChar(256)
+  blgcod             String?   @db.VarChar(20)
+  esccod             String?   @db.VarChar(20)
+  ovfind             String?   @db.Char(1)
+  rfrind             String?   @db.Char(1)
+  idlind             String?   @db.Char(1)
+  evtsum             String?   @db.VarChar(255)
+  ovcind             String?   @db.Char(1)
+  comind             String?   @db.Char(1)
+  actind             String?   @db.Char(1)
+  ovdind             String?   @db.Char(1)
+  rcvdtm             DateTime? @db.Timestamp(0)
+  comdtm             DateTime? @db.Timestamp(0)
+  credtm             DateTime? @db.Timestamp(0)
+  creusr             String?   @db.VarChar(50)
+  upddtm             DateTime? @db.Timestamp(0)
+  updtul             String?   @db.VarChar(64)
+  updusr             String?   @db.VarChar(50)
+  fchdtm             DateTime? @db.Timestamp(0)
+  duedtm             DateTime? @db.Timestamp(0)
+  rawage             Float?
+  wrkage             Float?
+  rfrage             Float?
+  ovfage             Float?
+  idlage             Float?
+  slaage             Float?
+  comage             Float?
+  cstnum             String?   @db.VarChar(50)
+  sttcod             String?   @db.VarChar(20)
+  frmnum             String?   @db.VarChar(50)
+  ordnum             String?
+  ordact             String?   @db.VarChar(50)
+  prdnum             String?   @db.VarChar(50)
+  rsnnum             String?   @db.VarChar(50)
+  msgcod             String?   @db.VarChar(400)
+  srclev             String?   @db.VarChar(20)
+  srcenv             String?   @db.VarChar(20)
+  srcent             String?   @db.VarChar(20)
+  srctkt             String?   @db.VarChar(256)
+  trglev             String?   @db.VarChar(20)
+  trgenv             String?   @db.VarChar(20)
+  trgent             String?   @db.VarChar(20)
+  trgtkt             String?   @db.VarChar(256)
+  ownrol             String?   @db.VarChar(20)
+  ownusr             String?   @db.VarChar(50)
+  hndtul             String    @db.VarChar(20)
+  hndrol             String?   @db.VarChar(120)
+  hndusr             String?   @db.VarChar(50)
+  mnpdef             String?   @db.VarChar(20)
+  mnpopr             String?   @db.VarChar(20)
+  mnpurl             String?   @db.VarChar(255)
+  tskdef             String?   @db.VarChar(20)
+  tskopr             String?   @db.VarChar(20)
+  cldcod             String?   @db.VarChar(20)
+  shfcod             String?   @db.VarChar(20)
+  sladtm             DateTime? @db.Timestamp(0)
+  hstdtm             DateTime? @db.Timestamp(0)
+  hstind             String?   @db.Char(3)
+  subseq             Float
+  subind             String    @db.VarChar(20)
+  oprsrv             String?   @db.VarChar(128)
+  oprtul             String    @db.VarChar(64)
+  oprusr             String    @db.VarChar(50)
+  oprdtm             DateTime  @db.Timestamp(0)
+  oprcod             String    @db.VarChar(50)
+  syscre             DateTime  @db.Timestamp(0)
+  sysupd             DateTime  @db.Timestamp(0)
+  estx01             String?
+  estx02             String?
+  estx03             String?
+  estx04             String?
+  estx05             String?
+  estx06             String?
+  estx07             String?
+  estx08             String?
+  estx09             String?
+  estx10             String?
+  estx11             String?
+  estx12             String?
+  estx13             String?
+  estx14             String?
+  estx15             String?
+  estx16             String?
+  estx17             String?
+  estx18             String?
+  estx19             String?
+  estx20             String?
+  estx21             String?
+  estx22             String?
+  estx23             String?
+  estx24             String?
+  estx25             String?
+  estx26             String?
+  estx27             String?
+  estx28             String?
+  estx29             String?
+  estx30             String?
+  estx31             String?
+  estx32             String?
+  estx33             String?
+  estx34             String?
+  estx35             String?
+  estx36             String?
+  estx37             String?
+  estx38             String?
+  estx39             String?
+  estx40             String?
+  estx41             String?
+  estx42             String?
+  estx43             String?
+  estx44             String?
+  estx45             String?
+  estx46             String?
+  estx47             String?
+  estx48             String?
+  estx49             String?
+  estx50             String?
+  estx51             String?
+  estx52             String?
+  estx53             String?
+  estx54             String?
+  estx55             String?
+  estx56             String?
+  estx57             String?
+  estx58             String?
+  estx59             String?
+  estx60             String?
+  emtx01             String?
+  emtx02             String?
+  emtx03             String?
+  emtx04             String?
+  emtx05             String?
+  emtx06             String?
+  emtx07             String?
+  emtx08             String?
+  emtx09             String?
+  emtx10             String?
+  eltx01             String?
+  eltx02             String?
+  eltx03             String?
+  eltx04             String?
+  eltx05             String?
+  edtm01             DateTime? @db.Timestamp(0)
+  edtm02             DateTime? @db.Timestamp(0)
+  edtm03             DateTime? @db.Timestamp(0)
+  edtm04             DateTime? @db.Timestamp(0)
+  edtm05             DateTime? @db.Timestamp(0)
+  edtm06             DateTime? @db.Timestamp(0)
+  edtm07             DateTime? @db.Timestamp(0)
+  edtm08             DateTime? @db.Timestamp(0)
+  edtm09             DateTime? @db.Timestamp(0)
+  edtm10             DateTime? @db.Timestamp(0)
+  edtm11             DateTime? @db.Timestamp(0)
+  edtm12             DateTime? @db.Timestamp(0)
+  edtm13             DateTime? @db.Timestamp(0)
+  edtm14             DateTime? @db.Timestamp(0)
+  edtm15             DateTime? @db.Timestamp(0)
+  edtm16             DateTime? @db.Timestamp(0)
+  edtm17             DateTime? @db.Timestamp(0)
+  edtm18             DateTime? @db.Timestamp(0)
+  edtm19             DateTime? @db.Timestamp(0)
+  edtm20             DateTime? @db.Timestamp(0)
+  eclb01             String?
+  eclb02             String?
+  eclb03             String?
+  eclb04             String?
+  eclb05             String?
+  cdm_txid           String?
+  gtxid              String?
+  severity           String?
+  group_severity     String?
+  customer_id        String?
+  customer_name      String?
+  estx61             String?
+  estx62             String?
+  estx63             String?
+  estx64             String?
+  estx65             String?
+  estx66             String?
+  estx67             String?
+  estx68             String?
+  estx69             String?
+  estx70             String?
+  estx71             String?
+  estx72             String?
+  estx73             String?
+  estx74             String?
+  estx75             String?
+  estx76             String?
+  estx77             String?
+  estx78             String?
+  estx79             String?
+  estx80             String?
+  estx81             String?
+  estx82             String?
+  estx83             String?
+  estx84             String?
+  estx85             String?
+  estx86             String?
+  estx87             String?
+  estx88             String?
+  estx89             String?
+  estx90             String?
+  estx91             String?
+  estx92             String?
+  estx93             String?
+  estx94             String?
+  estx95             String?
+  estx96             String?
+  estx97             String?
+  region_id          String?
+  labels             String?
+  estx98             String?
+
+  @@index([customer_id], map: "sky_pub_tktdtl_1ix")
+  @@index([envcod])
+  @@index([rcvdtm], map: "sky_pub_tktdtl_ix10")
+  @@index([mnpcod], map: "sky_pub_tktdtl_ix11")
+  @@index([rcvdtm, envcod, estx29], map: "sky_pub_tktdtl_ix12")
+  @@index([envcod, emtx05], map: "sky_pub_tktdtl_ix14")
+  @@index([envcod, estx69], map: "sky_pub_tktdtl_ix15")
+  @@index([pipeline_code], map: "sky_pub_tktdtl_ix2")
+  @@index([tktnum], map: "sky_pub_tktdtl_ix3")
+  @@index([tktnum, envcod, levcod], map: "sky_pub_tktdtl_ix4")
+  @@index([ordnum], map: "sky_pub_tktdtl_ix5")
+  @@index([estx02], map: "sky_pub_tktdtl_ix6")
+  @@index([estx13], map: "sky_pub_tktdtl_ix7")
+  @@index([estx16], map: "sky_pub_tktdtl_ix8")
+  @@index([severity, duedtm], map: "sky_pub_tktdtl_ix9")
+  @@index([labels])
+}
+
+model sky_pub_tkthed {
+  tkthed             BigInt    @id @default(autoincrement())
+  partition          Float
+  OFFSET             Float
+  pipeline_code      String?   @db.VarChar(100)
+  entity_type        String    @db.VarChar(100)
+  entity_id          String    @db.VarChar(400)
+  orchestration_code String?   @db.VarChar(100)
+  event_type         String    @db.VarChar(100)
+  event_time         DateTime  @db.Timestamp(6)
+  event_user         String?   @db.VarChar(100)
+  produce_time       DateTime? @db.Timestamp(6)
+  produce_tool       String    @db.VarChar(100)
+  produce_host       String?   @db.VarChar(100)
+  batch_id           String?   @db.VarChar(100)
+  batch_time         DateTime? @db.Timestamp(6)
+  sourcing_ind       String?   @db.VarChar(10)
+  time_frame         String?   @db.VarChar(50)
+  mnpcod             String?   @db.VarChar(128)
+  ownrol             String?   @db.VarChar(20)
+  ownusr             String?   @db.VarChar(50)
+  hndtul             String    @db.VarChar(64)
+  hndrol             String?   @db.VarChar(120)
+  hndusr             String?   @db.VarChar(50)
+  mnpdef             String?   @db.VarChar(20)
+  mnpopr             String?   @db.VarChar(20)
+  mnpurl             String?   @db.VarChar(255)
+  tskdef             String?   @db.VarChar(20)
+  tskopr             String?   @db.VarChar(20)
+  subseq             Float
+  subind             String    @db.VarChar(20)
+  oprsrv             String?   @db.VarChar(128)
+  oprtul             String    @db.VarChar(64)
+  oprusr             String    @db.VarChar(50)
+  oprdtm             DateTime  @db.Timestamp(6)
+  oprcod             String    @db.VarChar(50)
+  syscre             DateTime  @db.Timestamp(6)
+  sysupd             DateTime  @db.Timestamp(6)
+
+  @@index([subind], map: "sky_pub_tkthed_ix1")
+  @@index([entity_id], map: "sky_pub_tkthed_ix2")
+}
+
+model sky_pub_tktkpi {
+  pipeline_code      String?   @db.VarChar(100)
+  entity_type        String    @db.VarChar(100)
+  entity_id          String    @db.VarChar(400)
+  orchestration_code String?   @db.VarChar(100)
+  event_type         String    @db.VarChar(100)
+  event_time         DateTime  @db.Timestamp(6)
+  event_user         String?   @db.VarChar(100)
+  produce_time       DateTime? @db.Timestamp(6)
+  produce_tool       String    @db.VarChar(100)
+  produce_host       String?   @db.VarChar(100)
+  batch_id           String?   @db.VarChar(100)
+  batch_time         DateTime? @db.Timestamp(6)
+  sourcing_ind       String?   @db.VarChar(10)
+  time_frame         String?   @db.VarChar(50)
+  kpi_code           String    @db.VarChar(100)
+  kpi_group          String    @db.VarChar(100)
+  due_date           DateTime? @db.Timestamp(6)
+  status             String?   @db.VarChar(100)
+  seniority          String?   @db.VarChar(100)
+  last_ind           String?   @db.VarChar(20)
+
+  @@id([entity_id, kpi_group, kpi_code], map: "sky_pub_tktkpi_pk")
+}
+
+model sky_ratingtype_to_stream {
+  ratingtype String @id
+  stream     String
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model sky_ref_mnphed {
+  srmh_ppncod String   @db.VarChar(20)
+  srmh_mnpcod String?  @db.VarChar(50)
+  srmh_prncod String?  @default("0") @db.VarChar(20)
+  srmh_lgcpth String?  @db.VarChar(200)
+  srmh_mnpdsc String?  @db.VarChar(400)
+  srmh_owncod String?  @db.VarChar(200)
+  srmh_errcod String?  @db.VarChar(300)
+  srmh_dfccod String?  @db.VarChar(20)
+  srmh_tulcod String?  @db.VarChar(20)
+  srmh_mnpdef String?  @db.VarChar(20)
+  srmh_hndrol String   @db.VarChar(120)
+  srmh_ownrol String   @db.VarChar(20)
+  srmh_mnpurl String?  @db.VarChar(255)
+  srmh_stdaht Float    @default(0)
+  srmh_actind String?  @default("Y") @db.Char(1)
+  srmh_cretul String   @default("create_db.sql") @db.VarChar(20)
+  srmh_creusr String   @default("admin") @db.VarChar(50)
+  srmh_credtm DateTime @default(now()) @db.Timestamp(0)
+  srmh_updtul String   @default("create_db.sql") @db.VarChar(20)
+  srmh_updusr String   @default("admin") @db.VarChar(50)
+  srmh_upddtm DateTime @default(now()) @db.Timestamp(0)
+  srmh_oprcod String   @default("CRE") @db.VarChar(20)
+
+  @@ignore
+}
+
+model sky_refresh_monitoring {
+  refresh_request_id  String    @id(map: "sky_refresh_monitoring_pk")
+  ban_id              String?
+  subscriber_no       String?
+  ch_obj_id           String?
+  refresh_request_key String?
+  error_description   String?
+  status              String?
+  ctrl_create_time    DateTime? @db.Timestamp(6)
+  ctrl_update_time    DateTime? @db.Timestamp(6)
+  ctrl_prog_id        String?
+  refreshtype         String?
+  mode                String?
+  process_id          String?
+  action              String?
+  rtb_mode            String?
+  entitle_through     String?
+  refresh_version     String?
+  subscriber_count    Int?
+  version             String?
+  dual_mode           String?
+  error_code          String?
+
+  @@index([ban_id], map: "sky_refresh_monitoring_1ix")
+}
+
+model sky_refresh_subscriber_monitoring {
+  refresh_request_id String
+  ban_id             String
+  subscriber_no      String
+  error_code         String?
+  error_description  String?
+  status             String?
+  ctrl_create_time   DateTime? @db.Timestamp(6)
+  ctrl_update_time   DateTime? @db.Timestamp(6)
+
+  @@id([refresh_request_id, ban_id, subscriber_no], map: "sky_refresh_subscriber_monitoring_pk")
+  @@index([refresh_request_id, ban_id, subscriber_no], map: "sky_refresh_subscriber_monitoring_1ix")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model sky_report_errors_groupby_at_st {
+  report_id             DateTime? @db.Timestamp(6)
+  account_type          String?
+  account_sub_type      String?
+  error_code            String?
+  error_description     String?
+  total_tasks           BigInt?
+  acquired_tasks        BigInt?
+  completed_tasks_today BigInt?
+  new_tasks             BigInt?
+
+  @@ignore
+}
+
+model sky_subscribers_in_migration_and_catchup {
+  ban_id                       String    @db.VarChar(10)
+  migration_id                 String    @db.VarChar(10)
+  mgc                          Int
+  subscriber_id                String    @db.VarChar(20)
+  prod_test_msg_type           String    @db.VarChar(10)
+  status                       String?   @db.VarChar(20)
+  onprem_ctrl_create_date_time DateTime? @db.Timestamp(6)
+  onprem_ctrl_update_date_time DateTime? @db.Timestamp(6)
+  onprem_ctrl_prog_id          String?   @db.VarChar(50)
+  ctrl_create_time             DateTime? @db.Timestamp(6)
+  ctrl_prog_id                 String?   @db.VarChar(50)
+  ctrl_update_time             DateTime? @db.Timestamp(6)
+
+  @@id([ban_id, mgc, migration_id, prod_test_msg_type, subscriber_id])
+}
+
+model sky_task_activity_pool {
+  tktnum              String
+  task_id             String
+  process_id          String
+  task_activity       String
+  activity_status     String
+  retry_count         Int
+  ctcr_sys_cre_dt     DateTime  @db.Timestamp(6)
+  ctcr_sys_upd_dt     DateTime? @db.Timestamp(6)
+  ctcr_source_prog_id String?
+  activity_data       String?
+
+  @@id([tktnum, task_id, process_id], map: "sky_task_activity_pool_pk_2")
+  @@index([task_activity], map: "sky_task_activity_pool_ix1")
+  @@index([activity_status], map: "sky_task_activity_pool_ix2")
+  @@index([process_id], map: "sky_task_activity_pool_ix3")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model subscriber_count {
+  ban                 String    @db.VarChar(20)
+  seq_no              String    @db.VarChar(50)
+  product_type        String
+  sys_creation_date   DateTime  @db.Date
+  sys_update_date     DateTime? @db.Date
+  operator_id         String?
+  application_id      String?
+  dl_service_code     String
+  dl_update_stamp     String?
+  line_tp             String?
+  line_sub_type       String?
+  fut_actv            String?
+  active_with_dep     String?
+  active_without_dep  String?
+  sus_with_dep        String?
+  sus_without_dep     String?
+  sim_only_lines      String?
+  eip_lines           String?
+  reduced_price_lines String?
+
+  @@id([ban, seq_no, product_type], map: "subscriber_count_pk")
+}
+
+model test1 {
+  recordsequencenumber String  @id @db.Uuid
+  becorrelationid      String?
+  billestimatestepname String?
+  rtbmsname            String?
+  apiname              String?
+  apisignature         String?
+  request              String?
+  response             String?
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model test_jsonb {
+  chargecomponents     Json?
+  additionalparameters Json?
+
+  @@ignore
+}
+
+model ticket_bucket_info {
+  bucket_name               String
+  env                       String
+  source_sys                String?
+  customer_id               String?
+  error_code                String?
+  error_description         String?
+  mnpcod                    String?
+  fallout_type              String?
+  from_date                 DateTime? @db.Timestamp(6)
+  to_date                   DateTime? @db.Timestamp(6)
+  criteria01                String?
+  criteria02                String?
+  criteria03                String?
+  criteria04                String?
+  criteria05                String?
+  bucket_status             String
+  bucket_type               String    @db.Char(1)
+  num_of_tickets            Int
+  user_id                   String
+  creation_date             DateTime  @db.Timestamp(6)
+  resolution_action         String
+  resolution_data           String?
+  resolution_action_user_id String?
+  resolution_failure_reason String?
+  sub_bucket_suffix         String?
+  parent_bucket_name        String?
+  ctcr_sys_upd_dt           DateTime? @db.Timestamp(6)
+  label_id                  String?
+
+  @@id([bucket_name, env], map: "ticket_bucket_info_pk")
+  @@index([env], map: "ticket_bucket_info_ix1")
+  @@index([user_id], map: "ticket_bucket_info_ix2")
+  @@index([bucket_name], map: "ticket_bucket_info_trc_ix1")
+  @@index([env], map: "ticket_bucket_info_trc_ix2")
+}
+
+model ticket_bucket_info_trc {
+  bucket_trace_id           Decimal   @id(map: "ticket_bucket_info_trc_pk") @db.Decimal(18, 0)
+  bucket_name               String
+  env                       String
+  source_sys                String?
+  customer_id               String?
+  error_code                String?
+  error_description         String?
+  mnpcod                    String?
+  fallout_type              String?
+  from_date                 DateTime? @db.Timestamp(6)
+  to_date                   DateTime? @db.Timestamp(6)
+  criteria01                String?
+  criteria02                String?
+  criteria03                String?
+  criteria04                String?
+  criteria05                String?
+  bucket_status             String
+  bucket_type               String    @db.Char(1)
+  num_of_tickets            Int
+  user_id                   String
+  creation_date             DateTime  @db.Timestamp(6)
+  resolution_action         String
+  resolution_data           String?
+  resolution_action_user_id String?
+  resolution_failure_reason String?
+  sub_bucket_suffix         String?
+  parent_bucket_name        String?
+  ctcr_sys_upd_dt           DateTime? @db.Timestamp(6)
+  label_id                  String?
+}
+
+model ticket_bucket_mapping {
+  tktnum            String
+  env               String
+  bucket_name       String
+  resolution_status String
+  associate_date    DateTime  @db.Timestamp(6)
+  ctcr_sys_upd_dt   DateTime? @db.Timestamp(6)
+
+  @@id([tktnum, env, bucket_name], map: "ticket_bucket_mapping_pk")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model ticket_to_close_per_days {
+  tktnum         String?
+  estx13         String?
+  entity_id      String?
+  rcvdtm         DateTime? @db.Timestamp(0)
+  bpm_process_id String?
+  envcod         String?   @db.VarChar(20)
+  process_id     String?
+  task_id        String?
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model ticket_to_close_per_days_new {
+  tktnum         String?   @db.VarChar(256)
+  estx13         String?
+  entity_id      String?   @db.VarChar(400)
+  rcvdtm         DateTime? @db.Timestamp(0)
+  bpm_process_id String?
+  envcod         String?   @db.VarChar(20)
+  process_id     String?
+  task_id        String?
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model ticket_to_close_per_days_new2 {
+  tktnum         String?   @db.VarChar(256)
+  estx13         String?
+  entity_id      String?   @db.VarChar(400)
+  rcvdtm         DateTime? @db.Timestamp(0)
+  bpm_process_id String?
+  envcod         String?   @db.VarChar(20)
+  process_id     String?
+  task_id        String?
+
+  @@ignore
+}
+
+model tmo_charge_attributes {
+  attribute_name           String
+  source_system            String
+  source_value             String
+  source_value_description String?
+  target_system            String
+  target_value             String?
+  target_value_description String?
+  creation_date            String?
+
+  @@id([attribute_name, source_system, source_value, target_system])
+}
+
+model tmo_source_target_mapping {
+  source_system   String
+  target_system   String
+  attribute_name  String
+  attribute_value String?
+
+  @@id([source_system, target_system, attribute_name])
+}
+
+model trans {
+  appl_code                String
+  activity_code            String
+  transaction_name         String
+  transaction_desc         String?
+  ctrl_data_last_oper_id   String?
+  ctrl_data_last_oper_date DateTime? @db.Timestamp(6)
+
+  @@id([appl_code, activity_code, transaction_name], map: "trans_pk")
+}
+
+model transactions {
+  uniquetransactionid                   String    @id
+  type                                  String?
+  insert_date                           DateTime? @db.Date
+  tw                                    String?
+  tags                                  String?
+  atts                                  Json?     @db.Json
+  edges                                 Json?     @db.Json
+  sourcesystemname                      String?
+  externalid                            String?
+  ulidnumner                            String?
+  accountnumber                         String?
+  mobilenumber                          String?
+  chargecode                            String?
+  chargecodesamson                      String?
+  chargetime                            String?
+  transactionamount                     Decimal?  @db.Decimal(18, 2)
+  paymentterms                          String?
+  billcomments                          String?
+  activitytype                          String?
+  chargeentitysequencenumber            String?
+  chargeactivitysequencenumber          String?
+  iserror                               String?
+  requeststatus                         String?
+  errornumber                           String?
+  errordesc                             String?
+  providerinputtype                     String?
+  originalcigtransactionpayload         String?
+  originaljsontransactionpayload        Json?     @db.Json
+  interfacetype                         String?
+  transactiontype                       String?
+  operationaltype                       String?
+  transactiondescription                String?
+  transactiondate                       String?
+  currency                              String?
+  externalrelatedid                     String?
+  featurecode                           String?
+  featurerevenuecode                    String?
+  eipplanid                             String?
+  lineleveleipplanid                    String?
+  installmentnumber                     String?
+  externaladjustmentuniqueseqno         String?
+  activityindicator                     String?
+  lastpaymentnumber                     String?
+  remainingbalance                      String?
+  devicedescription                     String?
+  taxamount                             String?
+  taxactivitytype                       String?
+  sku                                   String?
+  residualamount                        String?
+  businesspartnercode                   String?
+  devicetype                            String?
+  remaininginstallments                 String?
+  method                                String?
+  headers                               Json?     @db.Json
+  data                                  Bytes?
+  externalaccountid                     String?
+  externalaccountname                   String?
+  appliedbillingratetype                String?
+  offerid                               String?
+  offertype                             String?
+  offername                             String?
+  chargetype                            String?
+  chargeserviceunit                     String?
+  chargeserviceusageaccumulated         String?
+  jaspermsisdn                          String?
+  chargeaggregatedlines                 String?
+  serviceperiodstarts                   String?
+  ppuaddressexternalid                  String?
+  usagetaxtype                          String?
+  chargecomponents                      Json?     @db.Json
+  additionalparameters                  Json?     @db.Json
+  sendtoproviderind                     String?
+  plantype                              String?
+  lineleveleipid                        String?
+  taxextensionvalue                     String?
+  taxextensionname                      String?
+  taxcharacteristicvalue                String?
+  taxcharacteristicname                 String?
+  taxadjustmenttransactionpriority      DateTime? @db.Time(6)
+  taxchargedesignation                  String?
+  taxprimaryresourceid                  String?
+  taxchargecode                         String?
+  taxchargetype                         String?
+  taxistaxcalculationrequired           Boolean?
+  taxincluded                           String?
+  taxexcludedamountvalue                Decimal?  @db.Decimal
+  taxexcludedamountunit                 String?
+  taxappliedbillingratetype             String?
+  taxoperationaltype                    String?
+  primarybaleveladjustmentreasoncode    String?
+  primaryadditionaladjustmentreasoncode String?
+  primaryextensionvalue                 String?
+  primarycharacteristicvalue            String?
+  primarycharacteristicname             String?
+  primaryadjustmenttransactionpriority  String?
+  primarychargedesignation              String?
+  primaryresourceid                     String?
+  primarychargereason                   String?
+  primarybaleveladjustmentchargecode    String?
+  primarychargecode                     String?
+  primarychargetype                     String?
+  primaryistaxcalculationrequired       Boolean?
+  primarytaxincluded                    Boolean?
+  primarytaxexcludedamountvalue         Decimal?  @db.Decimal
+  primarytaxexcludedamountunit          String?
+  primaryappliedbillingratetype         String?
+  primaryoperationaltype                String?
+  filename                              String?
+  transactiontime                       String?
+  chargeid                              String?
+  primaryextensionname                  String?
+  requestid                             String?
+  chargereason                          String?
+  coveragestartdate                     String?
+  coverageenddate                       String?
+  chargecategory                        String?
+  accountcreated                        DateTime? @db.Timestamp(6)
+  customerid                            String?
+  chargedesignation                     String?
+  serviceperiodends                     String?
+  billingaccountid                      String?
+  minutes                               String?
+  rateperminute                         String?
+  clin                                  String?
+  clinsequencenumber                    String?
+  description                           String?
+  misc1                                 String?
+  misc2                                 String?
+  misc3                                 String?
+  misc4                                 String?
+  misc5                                 String?
+  misc6                                 String?
+  nssnumber                             String?   @db.VarChar(50)
+  billingignoreindicator                String?   @db.VarChar(50)
+  ballanceimpactcode                    String?   @db.VarChar(50)
+  rownumber                             String?   @db.VarChar(50)
+  originaldattransactionpayload         String?
+  billpresentationindicator             String?
+}
+
+model uams_free_oid {
+  oid Decimal @id(map: "uams_free_oid_pk") @db.Decimal(19, 0)
+}
+
+model uams_key {
+  key_id            String  @id(map: "uams_key_pk")
+  key_length        Decimal @db.Decimal(9, 0)
+  algo              String
+  algorithm_mode    String
+  algorithm_padding String
+  format            String
+  creation_date     Decimal @db.Decimal(19, 0)
+  expiration_date   Decimal @db.Decimal(19, 0)
+  flags             Decimal @db.Decimal(19, 0)
+  usage_counter     Decimal @db.Decimal(19, 0)
+  formatted_key     String
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model uams_log {
+  partition_id     Decimal  @db.Decimal(2, 0)
+  event_date       DateTime @db.Timestamp(6)
+  event_timestamp  Decimal  @db.Decimal(19, 0)
+  event_bundle_id  String
+  event_id         Decimal  @db.Decimal(19, 0)
+  event_severity   Decimal  @db.Decimal(19, 0)
+  event_facility   Decimal  @db.Decimal(19, 0)
+  event_host       String
+  event_process    String
+  event_system     String
+  event_session_id String
+  event_principal  String
+  user_id          String?
+  client_host      String?
+  access_host      String?
+  resource_id      String?
+  scope_id         String?
+  user_status      Decimal? @db.Decimal(19, 0)
+  obj_type         String?
+  obj_history      Decimal? @db.Decimal(19, 0)
+  authz_direction  Decimal? @db.Decimal(1, 0)
+  authz_action     String?
+  authz_policy     String?
+  authz_fired_rule String?
+  authz_owner_rule String?
+
+  @@index([event_timestamp], map: "uams_log_1ix")
+  @@index([event_id, event_bundle_id], map: "uams_log_2ix")
+  @@ignore
+}
+
+model uams_name {
+  ns_oid         Decimal        @db.Decimal(19, 0)
+  name           String
+  path           String         @unique(map: "uams_name_1ix")
+  oid            Decimal        @db.Decimal(19, 0)
+  uams_object    uams_object    @relation(fields: [oid], references: [oid], onDelete: Cascade, onUpdate: NoAction, map: "uams_name_1fk")
+  uams_namespace uams_namespace @relation(fields: [ns_oid], references: [oid], onDelete: Cascade, onUpdate: NoAction, map: "uams_name_2fk")
+
+  @@id([ns_oid, name], map: "uams_name_pk")
+  @@unique([oid, path], map: "uams_name_3ix")
+  @@index([name], map: "uams_name_2ix")
+}
+
+model uams_namespace {
+  oid         Decimal     @id(map: "uams_namespace_pk") @db.Decimal(19, 0)
+  ser_data    Bytes?
+  uams_name   uams_name[]
+  uams_object uams_object @relation(fields: [oid], references: [oid], onDelete: Cascade, onUpdate: NoAction, map: "uams_namespace_1fk")
+}
+
+model uams_object {
+  oid            Decimal         @id(map: "uams_object_pk") @db.Decimal(19, 0)
+  type           String
+  uams_name      uams_name[]
+  uams_namespace uams_namespace?
+  uams_policy    uams_policy?
+  uams_resource  uams_resource?
+  uams_user      uams_user?
+}
+
+model uams_policy {
+  oid         Decimal     @id(map: "uams_policy_pk") @db.Decimal(19, 0)
+  ser_data    Bytes?
+  uams_object uams_object @relation(fields: [oid], references: [oid], onDelete: Cascade, onUpdate: NoAction, map: "uams_policy_1fk")
+}
+
+model uams_resource {
+  oid         Decimal     @id(map: "uams_resource_pk") @db.Decimal(19, 0)
+  ser_data    Bytes?
+  uams_object uams_object @relation(fields: [oid], references: [oid], onDelete: Cascade, onUpdate: NoAction, map: "uams_resource_1fk")
+}
+
+model uams_role {
+  oid      Decimal @id(map: "uams_role_pk") @db.Decimal(19, 0)
+  ser_data Bytes?
+}
+
+model uams_session {
+  uams_sid    String   @id(map: "uams_session_pk")
+  uams_uid    String?
+  idle        Decimal? @db.Decimal(19, 0)
+  expiration  Decimal? @db.Decimal(19, 0)
+  client_host String?
+  access_host String?
+  log_sid     String?
+  session_obj Bytes?
+
+  @@index([uams_uid], map: "uams_session_1ix")
+  @@index([expiration], map: "uams_session_2ix")
+  @@index([idle], map: "uams_session_3ix")
+}
+
+model uams_user {
+  oid             Decimal     @id(map: "uams_user_pk") @db.Decimal(19, 0)
+  user_status     Decimal     @db.Decimal(19, 0)
+  expiration_date DateTime    @db.Timestamp(6)
+  effective_date  DateTime    @db.Timestamp(6)
+  last_login_date DateTime    @db.Timestamp(6)
+  full_name       String?
+  email           String?
+  work_position   String?
+  ser_data        Bytes?
+  uams_object     uams_object @relation(fields: [oid], references: [oid], onDelete: Cascade, onUpdate: NoAction, map: "uams_user_1fk")
+
+  @@index([user_status], map: "uams_user_1ix")
+}
+
+model update_order_attr {
+  error_code       String
+  step_id          String
+  attribute_code   String
+  attribute_name   String
+  attribute_type   String?
+  attribute_format String?
+  attribute_usage  String?
+  filter_value     String?
+  description      String?
+
+  @@id([error_code, step_id, attribute_code], map: "update_order_attr_pk")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model uplift_data {
+  ban                String?
+  case_details       String?
+  rule_details       String?
+  key_fields         String?
+  additional_fields  String?
+  remediation_target String?
+  attribute_missing  String?
+  attribute_mismatch String?
+  file_name          String?
+  resolution_data    String? @db.VarChar(674)
+
+  @@ignore
+}
+
+/// This table is a partition table and requires additional setup for migrations. Visit https://pris.ly/d/partition-tables for more info.
+model uplift_file_processing {
+  domain                    String?   @db.VarChar(150)
+  file_name                 String?   @db.VarChar(150)
+  file_path                 String?   @db.VarChar(250)
+  rule_id                   String    @db.VarChar(150)
+  record_id                 String    @db.Uuid
+  task_id                   String?   @db.VarChar(150)
+  group_id                  String?   @db.VarChar(150)
+  mass_context_id           String?   @db.VarChar(150)
+  mass_type                 String?   @db.VarChar(150)
+  mass_sub_type             String?   @db.VarChar(150)
+  population_key            String?   @db.VarChar(150)
+  population_value          String    @db.VarChar(150)
+  attribute_missing         String?
+  attribute_mismatch        String?
+  additional_fields         String?
+  additional_data           String?
+  group_criteria_identifier String?
+  status                    String?   @db.VarChar(50)
+  completed_reason          String?
+  retry_counter             Int?
+  m_and_p_code              String?   @db.VarChar(50)
+  record_date               DateTime  @default(dbgenerated("CURRENT_DATE")) @db.Date
+  ctrl_create_time          DateTime? @default(now()) @db.Timestamp(6)
+  ctrl_update_time          DateTime? @db.Timestamp(6)
+  ticket_id                 String?
+  ba_id                     String?   @db.VarChar(150)
+  resolution_data           String?
+  case_id                   String?
+  key_values                String    @default(" ")
+
+  @@id([rule_id, population_value, key_values, record_date])
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model uplift_files_processing {
+  domain             String
+  file_name          String
+  file_path          String
+  rule_id            String?
+  record_id          String
+  task_id            String
+  group_id           String?
+  mass_context_id    String?
+  mass_type          String?
+  mass_sub_type      String?
+  attribute_missing  String?
+  attribute_mismatch String?
+  additional_fields  String?
+  additional_data    String?
+  status             String?
+  creation_date      String
+  update_date        String
+  application_id     String
+
+  @@index([group_id], map: "uplift_files_processing_1ix")
+  @@index([status], map: "uplift_files_processing_2ix")
+  @@ignore
+}
+
+model uplift_group_info {
+  group_id                  String
+  domain                    String
+  mnpcod                    String?
+  group_criteria_identifier String?
+  bucket_status             String
+  num_of_tickets            Int
+  creation_date             DateTime  @db.Timestamp(6)
+  ctcr_sys_upd_dt           DateTime? @db.Timestamp(6)
+
+  @@id([group_id, domain], map: "uplift_bucket_info_pk")
+  @@index([domain], map: "uplift_bucket_info_ix1")
+  @@index([group_id], map: "uplift_bucket_info_trc_ix1")
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model uplift_population_list {
+  id   String
+  type String
+
+  @@ignore
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model uplift_population_list_dfs {
+  id   String?
+  type String?
+
+  @@ignore
+}
+
+model uplift_recon_rules {
+  rule_id     Int     @id
+  rule_name   String
+  domain      String
+  alias       String
+  rule_type   String
+  description String?
+}
+
+model uplift_rules {
+  rule_id     Int     @id
+  rule_name   String
+  domain      String
+  alias       String
+  rule_type   String
+  description String?
+}
+
+model user_disposition {
+  user_id          String
+  disposition_name String
+  event_time       DateTime @db.Timestamp(6)
+
+  @@id([user_id, event_time], map: "user_diposition_pk")
+}
+
+model user_preferences {
+  user_id                  String
+  pref_key                 String
+  sub_pref_key             String
+  pref_value               String?
+  ctrl_data_last_oper_id   String?
+  ctrl_data_last_oper_date DateTime? @db.Timestamp(6)
+
+  @@id([user_id, pref_key, sub_pref_key], map: "user_preferences_pk")
+}
+
+model user_preferences_active {
+  user_id                  String
+  pref_key                 String
+  sub_pref_key             String
+  ctrl_data_last_oper_id   String?
+  ctrl_data_last_oper_date DateTime? @db.Timestamp(6)
+
+  @@id([user_id, pref_key, sub_pref_key], map: "user_preferences_active_pk")
+}
+
+model ws_applauth {
+  appl_code                String
+  activity_code            String
+  security_profile_code    String
+  activity_mode            String?
+  ctrl_data_last_oper_id   String?
+  ctrl_data_last_oper_date DateTime? @db.Timestamp(6)
+
+  @@id([appl_code, activity_code, security_profile_code], map: "ws_applauth_pk")
+}
+
+model api_keys {
+  id          String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  key         String   @unique @default(dbgenerated("('dandy-'::text || gen_random_uuid())"))
+  name        String
+  description String?
+  created_at  DateTime @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime @default(now()) @db.Timestamptz(6)
+
+  @@index([key], map: "idx_key")
+}
+
+enum applied_billing_rate_type {
+  oneTimeCharge
+  recurringCharge
+  usageCharge
+  discountCharge
+  credit
+}
