@@ -13,7 +13,7 @@ if (!supabaseUrl || !supabaseServiceRoleKey) {
 
 const httpsAgent = new Agent({ rejectUnauthorized: false });
 
-const fetchWithAgent = (url: RequestInfo, options?: RequestInit) =>
+const fetchWithAgent: typeof fetch = (url, options) =>
   fetch(url, { ...options, agent: httpsAgent });
 
 const globalForSupabase = globalThis as typeof globalThis & {
