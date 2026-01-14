@@ -1,4 +1,5 @@
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+import { type Fetch } from "@supabase/auth-js";
 import { Agent } from "https";
 import fetch, { type RequestInit } from "node-fetch";
 
