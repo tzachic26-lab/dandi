@@ -6,13 +6,17 @@ const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 if (!supabaseUrl || !supabaseServiceRoleKey) {
-  throw new Error("Supabase configuration missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY");
+  throw new Error(
+    "Supabase configuration missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY"
+  );
 }
 
 const httpsAgent = new Agent({ rejectUnauthorized: false });
 
-const fetchWithAgent = (url: string, options?: RequestInit) =>
-  fetch(url, { ...options, agent: httpsAgent });
+const fetchWithAgent = (
+  url: string,
+  options?: Parameters<typeof fetch>[1]
+) => fetch(url, { ...options, agent: httpsAgent });
 
 const globalForSupabase = globalThis as typeof globalThis & {
   supabaseAdmin?: SupabaseClient;
