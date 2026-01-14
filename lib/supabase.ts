@@ -1,6 +1,6 @@
-import { createClient, type SupabaseClient } from "@supabase/supabase-js";
+import { createClient, type Fetch, type SupabaseClient } from "@supabase/supabase-js";
 import { Agent } from "https";
-import fetch, { type RequestInfo, type RequestInit } from "node-fetch";
+import fetch, { type RequestInit } from "node-fetch";
 
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -13,7 +13,7 @@ if (!supabaseUrl || !supabaseServiceRoleKey) {
 
 const httpsAgent = new Agent({ rejectUnauthorized: false });
 
-const fetchWithAgent: typeof fetch = (url, options) =>
+const fetchWithAgent: Fetch = (url, options) =>
   fetch(url, { ...options, agent: httpsAgent });
 
 const globalForSupabase = globalThis as typeof globalThis & {
