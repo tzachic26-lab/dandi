@@ -36,7 +36,7 @@ export const supabaseAdmin =
       autoRefreshToken: false,
     },
     global: {
-      fetch: fetchWithAgent as typeof fetch,
+      fetch: fetchWithAgent as unknown as typeof fetch,
     },
   });
 
