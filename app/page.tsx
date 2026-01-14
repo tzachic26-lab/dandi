@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useId, useState } from "react";
+import { useCallback, useEffect, useId, useState } from "react";
 
 type ApiKey = {
   id: string;
@@ -53,6 +53,12 @@ const PlayIcon = () => (
   </span>
 );
 
+type GoogleSession = {
+  authenticated: boolean;
+  email?: string;
+  name?: string;
+};
+
 export default function Home() {
   const headingId = useId();
   const [keys, setKeys] = useState<ApiKey[]>([]);
@@ -69,6 +75,7 @@ export default function Home() {
   const [creatingKey, setCreatingKey] = useState(false);
   const [notice, setNotice] = useState<{ type: "success" | "error"; message: string } | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [googleSession, setGoogleSession] = useState<GoogleSession | null>(null);
 
   useEffect(() => {
     const fetchKeys = async () => {
@@ -98,6 +105,22 @@ export default function Home() {
     const timer = setTimeout(() => setNotice(null), 3000);
     return () => clearTimeout(timer);
   }, [notice]);
+
+  useEffect(() => {
+    const fetchSession = async () => {
+      try {
+        const response = await fetch("/api/auth/session");
+        if (response.ok) {
+          const data: GoogleSession = await response.json();
+          setGoogleSession(data);
+        }
+      } catch {
+        // ignore
+      }
+    };
+
+    fetchSession();
+  }, []);
 
   const handleOpenEdit = (key: ApiKey) => {
     setEditingKey(key);
@@ -194,7 +217,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-950 via-indigo-950 to-purple-950 p-4 text-white sm:p-6 lg:p-8">
-      <div className="flex gap-6">
+          <div className="flex gap-6">
         {sidebarOpen && (
           <aside className="flex w-72 flex-col gap-6 rounded-[30px] bg-white/90 p-6 text-slate-900 shadow-2xl shadow-slate-900/30">
             <div className="flex items-center justify-between">
@@ -265,9 +288,33 @@ export default function Home() {
                     Track plan usage and API keys in one place.
                   </p>
                 </div>
-                <button className="rounded-full border border-white/30 bg-white/10 px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-white/20 transition hover:border-white hover:bg-white/20">
-                  Manage Plan
-                </button>
+                <div className="flex flex-wrap items-center gap-3">
+                  {googleSession?.authenticated ? (
+                    <>
+                      <p className="text-sm text-white/80">
+                        Signed in as {googleSession.name ?? googleSession.email}
+                      </p>
+                      <button
+                        onClick={async () => {
+                          await fetch("/api/auth/logout");
+                          setGoogleSession(null);
+                        }}
+                        className="rounded-full border border-white/30 bg-white/10 px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-white/20 transition hover:border-white hover:bg-white/20"
+                      >
+                        Sign out
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        window.location.href = "/api/auth/google";
+                      }}
+                      className="rounded-full border border-white/30 bg-white/10 px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-white/20 transition hover:border-white hover:bg-white/20"
+                    >
+                      Sign in with Google
+                    </button>
+                  )}
+                </div>
               </div>
               <div className="mt-6 grid gap-4 sm:grid-cols-3">
                 {cards.map((item) => (
