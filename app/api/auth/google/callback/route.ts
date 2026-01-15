@@ -5,7 +5,7 @@ const TOKEN_URL = "https://oauth2.googleapis.com/token";
 export async function GET(request: NextRequest) {
   const code = request.nextUrl.searchParams.get("code");
   const state = request.nextUrl.searchParams.get("state");
-  const storedState = request.cookies.get("oauth_state");
+  const storedState = request.cookies.get("oauth_state")?.value;
   const redirectUri =
     process.env.GOOGLE_REDIRECT_URI ??
     `${process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000"}/api/auth/google/callback`;
@@ -53,7 +53,10 @@ export async function GET(request: NextRequest) {
     id_token: tokens.id_token,
   };
 
-  const response = NextResponse.redirect(process.env.NEXT_PUBLIC_POST_LOGIN_REDIRECT ?? "/");
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
+  const postLoginPath = process.env.NEXT_PUBLIC_POST_LOGIN_REDIRECT ?? "/";
+  const postLoginUrl = new URL(postLoginPath, baseUrl);
+  const response = NextResponse.redirect(postLoginUrl);
   response.cookies.set("google_session", JSON.stringify(session), {
     httpOnly: true,
     sameSite: "lax",

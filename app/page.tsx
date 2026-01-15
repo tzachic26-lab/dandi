@@ -76,9 +76,18 @@ export default function Home() {
   const [notice, setNotice] = useState<{ type: "success" | "error"; message: string } | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [googleSession, setGoogleSession] = useState<GoogleSession | null>(null);
+  const [sessionLoading, setSessionLoading] = useState(true);
 
   useEffect(() => {
+    if (sessionLoading) return;
+
     const fetchKeys = async () => {
+      if (!googleSession?.authenticated) {
+        setKeys([]);
+        setLoading(false);
+        return;
+      }
+
       setLoading(true);
       setError(null);
 
@@ -98,7 +107,7 @@ export default function Home() {
     };
 
     fetchKeys();
-  }, []);
+  }, [googleSession, sessionLoading]);
 
   useEffect(() => {
     if (!notice) return;
@@ -113,14 +122,21 @@ export default function Home() {
         if (response.ok) {
           const data: GoogleSession = await response.json();
           setGoogleSession(data);
+        } else {
+          setGoogleSession({ authenticated: false });
         }
       } catch {
         // ignore
+        setGoogleSession({ authenticated: false });
+      } finally {
+        setSessionLoading(false);
       }
     };
 
     fetchSession();
   }, []);
+
+  const isAuthenticated = googleSession?.authenticated;
 
   const handleOpenEdit = (key: ApiKey) => {
     setEditingKey(key);
@@ -297,7 +313,8 @@ export default function Home() {
                       <button
                         onClick={async () => {
                           await fetch("/api/auth/logout");
-                          setGoogleSession(null);
+                          setGoogleSession({ authenticated: false });
+                          setKeys([]);
                         }}
                         className="rounded-full border border-white/30 bg-white/10 px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-white/20 transition hover:border-white hover:bg-white/20"
                       >
@@ -337,11 +354,18 @@ export default function Home() {
                 </div>
                 <button
                   onClick={() => setIsCreating(true)}
-                  className="rounded-full bg-gradient-to-r from-cyan-500 to-rose-500 px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-cyan-500/40 transition hover:opacity-90"
+                  disabled={!isAuthenticated}
+                  className={`rounded-full bg-gradient-to-r from-cyan-500 to-rose-500 px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-cyan-500/40 transition hover:opacity-90 ${!isAuthenticated ? "cursor-not-allowed opacity-50" : ""}`}
                 >
                   + Create key
                 </button>
               </div>
+
+              {!isAuthenticated && !sessionLoading ? (
+                <p className="mt-4 text-sm text-slate-200">
+                  Sign in with Google to view and manage your API keys.
+                </p>
+              ) : null}
 
               {error ? (
                 <p className="mt-6 text-sm text-rose-200">{error}</p>

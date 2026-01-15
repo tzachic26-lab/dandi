@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase";
+import { requireGoogleSession } from "@/app/api/auth/utils";
 import { normalizeKey } from "@/app/api/keys/utils";
 
 const normalizeRow = (row: {
@@ -19,7 +20,11 @@ const normalizeRow = (row: {
     updated_at: row.updated_at,
   });
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  if (!requireGoogleSession(request)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const { data, error } = await supabaseAdmin
     .from("api_keys")
     .select("id, key, name, description, created_at, updated_at")
@@ -34,6 +39,10 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
+  if (!requireGoogleSession(request)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const body = await request.json().catch(() => null);
   if (!body || typeof body.name !== "string" || !body.name.trim()) {
     return NextResponse.json({ error: "Missing key name" }, { status: 400 });

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase";
+import { requireGoogleSession } from "@/app/api/auth/utils";
 import { normalizeKey } from "@/app/api/keys/utils";
 
 const normalizeRow = (row: {
@@ -23,6 +24,10 @@ export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ id?: string }> }
 ) {
+  if (!requireGoogleSession(request)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const { id } = await params;
   if (!id) {
     return NextResponse.json({ error: "Missing key id" }, { status: 400 });
@@ -84,9 +89,13 @@ export async function PATCH(
 }
 
 export async function DELETE(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ id?: string }> }
 ) {
+  if (!requireGoogleSession(request)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
   const { id } = await params;
   if (!id) {
     return NextResponse.json({ error: "Missing key id" }, { status: 400 });

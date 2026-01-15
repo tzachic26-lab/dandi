@@ -20,6 +20,17 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Google SSO setup
+
+1) Create a Google OAuth client and set the authorized redirect URI to:
+   `http://localhost:3000/api/auth/google/callback` (or your deployed base URL).
+2) Add the following environment variables:
+   - `GOOGLE_CLIENT_ID`
+   - `GOOGLE_CLIENT_SECRET`
+   - `NEXT_PUBLIC_BASE_URL` (optional; defaults to `http://localhost:3000`)
+   - `GOOGLE_REDIRECT_URI` (optional override for the callback URL)
+   - `NEXT_PUBLIC_POST_LOGIN_REDIRECT` (optional; defaults to `/`)
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
