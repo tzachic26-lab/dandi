@@ -17,6 +17,7 @@ export async function GET(request: NextRequest) {
       authenticated: true,
       email: decoded?.email,
       name: decoded?.name,
+      picture: decoded?.picture,
     });
   } catch {
     return NextResponse.json({ authenticated: false });

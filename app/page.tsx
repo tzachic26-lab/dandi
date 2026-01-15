@@ -57,6 +57,7 @@ type GoogleSession = {
   authenticated: boolean;
   email?: string;
   name?: string;
+  picture?: string;
 };
 
 export default function Home() {
@@ -307,6 +308,14 @@ export default function Home() {
                 <div className="flex flex-wrap items-center gap-3">
                   {googleSession?.authenticated ? (
                     <>
+                      {googleSession.picture ? (
+                        <img
+                          src={googleSession.picture}
+                          alt={googleSession.name ?? googleSession.email ?? "Google profile"}
+                          className="h-9 w-9 rounded-full border border-white/30 object-cover"
+                          referrerPolicy="no-referrer"
+                        />
+                      ) : null}
                       <p className="text-sm text-white/80">
                         Signed in as {googleSession.name ?? googleSession.email}
                       </p>
