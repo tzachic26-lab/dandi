@@ -59,7 +59,7 @@ const PlaygroundPage = () => {
   };
 
   const handleGoBack = () => {
-    router.push("/");
+    router.push("/dashboards");
   };
 
   return (
