@@ -53,6 +53,7 @@ const PlayIcon = () => (
   </span>
 );
 
+
 type GoogleSession = {
   authenticated: boolean;
   email?: string;
