@@ -31,6 +31,11 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
    - `GOOGLE_REDIRECT_URI` (optional override for the callback URL)
    - `NEXT_PUBLIC_POST_LOGIN_REDIRECT` (optional; defaults to `/`)
 
+## Supabase users table
+
+Run `supabase/migrations/20250118_create_users.sql` in the Supabase SQL editor
+to create the `users` table used by Google SSO.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

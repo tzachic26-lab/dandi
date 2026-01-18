@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { supabaseAdmin } from "@/lib/supabase";
 
 const TOKEN_URL = "https://oauth2.googleapis.com/token";
 
@@ -52,6 +53,29 @@ export async function GET(request: NextRequest) {
     expires_in: tokens.expires_in,
     id_token: tokens.id_token,
   };
+
+  const payload = tokens.id_token?.split?.(".")[1];
+  const decoded = payload
+    ? JSON.parse(Buffer.from(payload, "base64").toString("utf-8"))
+    : null;
+
+  if (decoded?.sub) {
+    const userRecord = {
+      google_sub: decoded.sub,
+      email: decoded.email ?? null,
+      name: decoded.name ?? null,
+      picture: decoded.picture ?? null,
+      last_login_at: new Date().toISOString(),
+    };
+
+    const { error } = await supabaseAdmin
+      .from("users")
+      .upsert(userRecord, { onConflict: "google_sub" });
+
+    if (error) {
+      console.error("[google-callback] Unable to upsert user", error);
+    }
+  }
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
   const postLoginPath = process.env.NEXT_PUBLIC_POST_LOGIN_REDIRECT ?? "/";
