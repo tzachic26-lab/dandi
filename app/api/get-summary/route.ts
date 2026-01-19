@@ -85,6 +85,7 @@ export async function POST(request: NextRequest) {
   logInfo("Received POST request", {
     headers: {
       "api-key": request.headers.get("api-key"),
+      "x-demo": request.headers.get("x-demo"),
     },
   });
 
@@ -99,7 +100,8 @@ export async function POST(request: NextRequest) {
   }
 
   const key = request.headers.get("api-key")?.trim() ?? "";
-  if (!key) {
+  const isDemo = request.headers.get("x-demo") === "true";
+  if (!key && !isDemo) {
     logError("Missing API key");
     return NextResponse.json({ valid: false, message: "Missing API key" }, { status: 400 });
   }
@@ -122,28 +124,32 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    logInfo("Validating API key via Supabase", { key });
-    const { data: keyRecord, error: supabaseError } = await supabaseAdmin
-      .from("api_keys")
-      .select("id")
-      .eq("key", key)
-      .limit(1)
-      .maybeSingle();
+    if (!isDemo) {
+      logInfo("Validating API key via Supabase", { key });
+      const { data: keyRecord, error: supabaseError } = await supabaseAdmin
+        .from("api_keys")
+        .select("id")
+        .eq("key", key)
+        .limit(1)
+        .maybeSingle();
 
-    if (supabaseError) {
-      logError("Supabase error verifying API key", { supabaseError });
-      return NextResponse.json(
-        { valid: false, message: "Unable to verify API key" },
-        { status: 500 }
-      );
+      if (supabaseError) {
+        logError("Supabase error verifying API key", { supabaseError });
+        return NextResponse.json(
+          { valid: false, message: "Unable to verify API key" },
+          { status: 500 }
+        );
+      }
+
+      if (!keyRecord) {
+        logError("API key not found in Supabase", { key });
+        return NextResponse.json({ valid: false, message: "Key not found" }, { status: 401 });
+      }
+
+      logInfo("API key verified");
+    } else {
+      logInfo("Skipping API key verification for demo request");
     }
-
-    if (!keyRecord) {
-      logError("API key not found in Supabase", { key });
-      return NextResponse.json({ valid: false, message: "Key not found" }, { status: 401 });
-    }
-
-    logInfo("API key verified");
 
     const readme = await fetchReadme(githubUrl);
     if (!readme) {

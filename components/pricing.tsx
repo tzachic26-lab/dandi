@@ -36,6 +36,7 @@ export function Pricing() {
       ],
       cta: "Start free trial",
       highlighted: true,
+      comingSoon: true,
     },
     {
       name: "Team",
@@ -53,6 +54,7 @@ export function Pricing() {
       ],
       cta: "Contact sales",
       highlighted: false,
+      comingSoon: true,
     },
   ]
 
@@ -74,15 +76,24 @@ export function Pricing() {
               key={tier.name}
               className={cn(
                 "relative rounded-2xl border p-8 transition-all",
-                tier.highlighted
-                  ? "border-accent bg-accent/5 shadow-lg shadow-accent/10"
-                  : "border-border bg-card hover:border-muted-foreground/30"
+                tier.comingSoon
+                  ? "border-emerald-400/40 bg-card shadow-lg shadow-emerald-500/10"
+                  : tier.highlighted
+                    ? "border-accent bg-accent/5 shadow-lg shadow-accent/10"
+                    : "border-border bg-card hover:border-muted-foreground/30"
               )}
             >
-              {tier.highlighted && (
+              {tier.highlighted && !tier.comingSoon && (
                 <div className="absolute -top-4 left-1/2 -translate-x-1/2">
                   <span className="rounded-full bg-accent px-4 py-1 text-sm font-medium text-accent-foreground">
                     Most popular
+                  </span>
+                </div>
+              )}
+              {tier.comingSoon && (
+                <div className="absolute -top-4 left-1/2 -translate-x-1/2">
+                  <span className="rounded-full border border-emerald-400/40 bg-emerald-500/10 px-4 py-1 text-sm font-medium text-emerald-200">
+                    Coming soon
                   </span>
                 </div>
               )}
@@ -108,14 +119,17 @@ export function Pricing() {
               </ul>
 
               <Button
+                disabled={tier.comingSoon}
                 className={cn(
                   "w-full",
-                  tier.highlighted
-                    ? "bg-accent text-accent-foreground hover:bg-accent/90"
-                    : "bg-primary text-primary-foreground hover:bg-primary/90"
+                  tier.comingSoon
+                    ? "cursor-not-allowed bg-muted text-muted-foreground"
+                    : tier.highlighted
+                      ? "bg-accent text-accent-foreground hover:bg-accent/90"
+                      : "bg-primary text-primary-foreground hover:bg-primary/90"
                 )}
               >
-                {tier.cta}
+                {tier.comingSoon ? "Coming soon" : tier.cta}
               </Button>
             </div>
           ))}
