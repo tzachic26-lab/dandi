@@ -108,9 +108,14 @@ export async function POST(request: NextRequest) {
 
   const key = request.headers.get("api-key")?.trim() ?? "";
   const isDemo = request.headers.get("x-demo") === "true";
+  const hasSession = !!request.cookies.get("google_session");
   if (!key && !isDemo) {
     logError("Missing API key");
     return NextResponse.json({ valid: false, message: "Missing API key" }, { status: 400 });
+  }
+  if (isDemo && !hasSession) {
+    logError("Demo request without session");
+    return NextResponse.json({ valid: false, message: "Authentication required" }, { status: 401 });
   }
 
   const githubUrl = body.githubUrl.trim();

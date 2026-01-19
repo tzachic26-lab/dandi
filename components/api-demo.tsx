@@ -17,11 +17,28 @@ export function ApiDemo() {
   const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [showDocs, setShowDocs] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       setUrl(`${window.location.origin}/api/get-summary`)
     }
+  }, [])
+
+  useEffect(() => {
+    const fetchSession = async () => {
+      try {
+        const response = await fetch("/api/auth/session")
+        if (response.ok) {
+          const data = (await response.json()) as { authenticated?: boolean }
+          setIsAuthenticated(!!data.authenticated)
+        }
+      } catch {
+        setIsAuthenticated(false)
+      }
+    }
+
+    fetchSession()
   }, [])
 
   const handleSend = async () => {
@@ -117,9 +134,12 @@ export function ApiDemo() {
                 />
               </label>
               <div className="mt-4 flex flex-wrap items-center gap-3">
-                <Button onClick={handleSend} disabled={isLoading}>
+                <Button onClick={handleSend} disabled={isLoading || !isAuthenticated}>
                   {isLoading ? "Sending..." : "Send request"}
                 </Button>
+                {!isAuthenticated ? (
+                  <span className="text-sm text-muted-foreground">Sign in to try the API.</span>
+                ) : null}
                 {error ? <span className="text-sm text-destructive">{error}</span> : null}
               </div>
             </div>

@@ -50,18 +50,29 @@ export function Header() {
         </Link>
 
         <nav className="hidden items-center gap-8 md:flex">
-          <Link href="#features" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
-            Features
-          </Link>
-          <Link href="#pricing" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
-            Pricing
-          </Link>
-          <Link href="/dashboards" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
-            Dashboard
-          </Link>
-          <Link href="#" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
-            Docs
-          </Link>
+          {isAuthenticated ? (
+            <>
+              <Link href="#features" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+                Features
+              </Link>
+              <Link href="#pricing" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+                Pricing
+              </Link>
+              <Link href="/dashboards" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+                Dashboard
+              </Link>
+              <Link href="#" className="text-sm text-muted-foreground transition-colors hover:text-foreground">
+                Docs
+              </Link>
+            </>
+          ) : (
+            <>
+              <span className="text-sm text-muted-foreground/60">Features</span>
+              <span className="text-sm text-muted-foreground/60">Pricing</span>
+              <span className="text-sm text-muted-foreground/60">Dashboard</span>
+              <span className="text-sm text-muted-foreground/60">Docs</span>
+            </>
+          )}
         </nav>
 
         <div className="flex items-center gap-3">
@@ -114,34 +125,45 @@ export function Header() {
       {mobileOpen ? (
         <div className="border-t border-border bg-background md:hidden">
           <nav className="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-4 sm:px-6">
-            <Link
-              href="#features"
-              className="rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground"
-              onClick={() => setMobileOpen(false)}
-            >
-              Features
-            </Link>
-            <Link
-              href="#pricing"
-              className="rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground"
-              onClick={() => setMobileOpen(false)}
-            >
-              Pricing
-            </Link>
-            <Link
-              href="/dashboards"
-              className="rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground"
-              onClick={() => setMobileOpen(false)}
-            >
-              Dashboard
-            </Link>
-            <Link
-              href="#"
-              className="rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground"
-              onClick={() => setMobileOpen(false)}
-            >
-              Docs
-            </Link>
+            {isAuthenticated ? (
+              <>
+                <Link
+                  href="#features"
+                  className="rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  Features
+                </Link>
+                <Link
+                  href="#pricing"
+                  className="rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  Pricing
+                </Link>
+                <Link
+                  href="/dashboards"
+                  className="rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  Dashboard
+                </Link>
+                <Link
+                  href="#"
+                  className="rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground"
+                  onClick={() => setMobileOpen(false)}
+                >
+                  Docs
+                </Link>
+              </>
+            ) : (
+              <>
+                <span className="rounded-lg px-3 py-2 text-sm text-muted-foreground/60">Features</span>
+                <span className="rounded-lg px-3 py-2 text-sm text-muted-foreground/60">Pricing</span>
+                <span className="rounded-lg px-3 py-2 text-sm text-muted-foreground/60">Dashboard</span>
+                <span className="rounded-lg px-3 py-2 text-sm text-muted-foreground/60">Docs</span>
+              </>
+            )}
           </nav>
         </div>
       ) : null}
