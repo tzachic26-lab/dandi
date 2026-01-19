@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { Button } from "@/components/ui/button"
 
-const DEFAULT_URL = "/api/get-summary"
+const DEFAULT_URL = "https://api.dandi.dev/api/get-summary"
 const DEFAULT_PAYLOAD = JSON.stringify(
   { githubUrl: "https://github.com/assafelovic/gpt-researcher" },
   null,
@@ -67,16 +67,16 @@ export function ApiDemo() {
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
               <p className="text-xs uppercase tracking-[0.4em] text-muted-foreground">Live API demo</p>
-              <h2 className="text-3xl font-bold text-foreground">Try the summary endpoint</h2>
+              <h2 className="text-3xl font-bold text-foreground">Try the API</h2>
               <p className="mt-2 text-sm text-muted-foreground">
-                Edit the request and see the response instantly.
+                Test our API directly in your browser. Edit the request and see real-time results.
               </p>
             </div>
             <Button
               variant="outline"
               onClick={() => setShowDocs((prev) => !prev)}
             >
-              Documentation
+              View Documentation
             </Button>
           </div>
 
@@ -93,7 +93,13 @@ export function ApiDemo() {
 
           <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
             <div className="rounded-2xl border border-border bg-card p-5">
-              <label className="block text-sm font-medium text-foreground">
+              <div className="flex items-center justify-between">
+                <p className="text-sm font-semibold text-foreground">Request Settings</p>
+                <span className="rounded-full border border-border bg-secondary px-3 py-1 text-xs font-semibold text-foreground">
+                  POST
+                </span>
+              </div>
+              <label className="mt-4 block text-sm font-medium text-foreground">
                 URL
                 <input
                   value={url}
@@ -119,7 +125,7 @@ export function ApiDemo() {
             </div>
 
             <div className="rounded-2xl border border-border bg-card p-5">
-              <p className="text-sm font-medium text-foreground">Response</p>
+              <p className="text-sm font-semibold text-foreground">Response</p>
               <div className="mt-2 rounded-xl border border-border bg-background p-3">
                 <pre className="max-h-[320px] overflow-auto whitespace-pre-wrap break-words text-xs text-muted-foreground">
                   {response || "Response will appear here."}

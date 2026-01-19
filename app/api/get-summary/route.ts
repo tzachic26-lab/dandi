@@ -35,11 +35,18 @@ const fetchReadme = async (githubUrl: string): Promise<string | null> => {
     logInfo("Resolved owner and repo", { owner, repo });
 
     const branches = ["main", "master"];
+    const githubToken = process.env.GITHUB_TOKEN;
+    const headers: Record<string, string> = {
+      Accept: "application/vnd.github+json",
+    };
+    if (githubToken) {
+      headers.Authorization = `Bearer ${githubToken}`;
+    }
     for (const branch of branches) {
       const url = `https://api.github.com/repos/${owner}/${repo}/readme?ref=${branch}`;
       logInfo("Attempting fetch for branch README", { branch, url });
 
-      const response = await fetch(url);
+      const response = await fetch(url, { headers });
 
       logInfo("Fetched README response", {
         branch,

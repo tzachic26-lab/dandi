@@ -1,3 +1,35 @@
+## Dandi
+
+Dandi is a GitHub repository analysis platform that turns any public repo into
+clear, actionable insights. It combines AI summaries, key facts, and rich
+dashboard views so teams can evaluate projects quickly and share results.
+
+### Features
+
+- AI‑generated README summaries and key facts
+- API key management with secure access control
+- Live API demo to test the summary endpoint
+- Dashboard and API playground for day‑to‑day workflows
+- Google SSO with session-based sign‑in
+
+### API
+
+Endpoint:
+- `POST /api/get-summary`
+
+Request body:
+```json
+{
+  "githubUrl": "https://github.com/assafelovic/gpt-researcher"
+}
+```
+
+Notes:
+- Provide an `api-key` header for authenticated requests.
+- The landing page demo uses an internal `x-demo` header to bypass API keys.
+
+---
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app)
 
 ## Getting Started
