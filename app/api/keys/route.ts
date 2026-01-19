@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase";
-import { requireGoogleSession } from "@/app/api/auth/utils";
+import { getGoogleSubject, requireGoogleSession } from "@/app/api/auth/utils";
 import { normalizeKey } from "@/app/api/keys/utils";
 
 const normalizeRow = (row: {
@@ -21,13 +21,19 @@ const normalizeRow = (row: {
   });
 
 export async function GET(request: NextRequest) {
-  if (!requireGoogleSession(request)) {
+  const session = requireGoogleSession(request);
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  const googleSub = getGoogleSubject(session);
+  if (!googleSub) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const { data, error } = await supabaseAdmin
     .from("api_keys")
     .select("id, key, name, description, created_at, updated_at")
+    .eq("user_id", googleSub)
     .order("created_at", { ascending: false });
 
   if (error) {
@@ -39,7 +45,12 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  if (!requireGoogleSession(request)) {
+  const session = requireGoogleSession(request);
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  const googleSub = getGoogleSubject(session);
+  if (!googleSub) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
@@ -55,7 +66,7 @@ export async function POST(request: NextRequest) {
 
   const { data, error } = await supabaseAdmin
     .from("api_keys")
-    .insert([{ name: body.name.trim(), description }])
+    .insert([{ name: body.name.trim(), description, user_id: googleSub }])
     .select("id, key, name, description, created_at, updated_at")
     .maybeSingle();
 

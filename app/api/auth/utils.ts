@@ -22,3 +22,14 @@ export const requireGoogleSession = (request: NextRequest): GoogleSession | null
   if (!session?.id_token) return null;
   return session;
 };
+
+export const getGoogleSubject = (session: GoogleSession): string | null => {
+  const payload = session.id_token?.split?.(".")[1];
+  if (!payload) return null;
+  try {
+    const decoded = JSON.parse(Buffer.from(payload, "base64").toString("utf-8"));
+    return typeof decoded?.sub === "string" ? decoded.sub : null;
+  } catch {
+    return null;
+  }
+};

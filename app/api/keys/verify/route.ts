@@ -1,10 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase";
+import { getGoogleSubject, requireGoogleSession } from "@/app/api/auth/utils";
 
 const isValidKeyRequest = (payload: unknown): payload is { key: string } =>
   !!payload && typeof payload === "object" && "key" in payload && typeof (payload as any).key === "string";
 
 export async function POST(request: NextRequest) {
+  const session = requireGoogleSession(request);
+  if (!session) {
+    return NextResponse.json({ valid: false, message: "Unauthorized" }, { status: 401 });
+  }
+  const googleSub = getGoogleSubject(session);
+  if (!googleSub) {
+    return NextResponse.json({ valid: false, message: "Unauthorized" }, { status: 401 });
+  }
+
   const body = await request.json().catch(() => null);
   if (!isValidKeyRequest(body)) {
     return NextResponse.json({ valid: false, message: "Missing key" }, { status: 400 });
@@ -20,6 +30,7 @@ export async function POST(request: NextRequest) {
       .from("api_keys")
       .select("id")
       .eq("key", trimmedKey)
+      .eq("user_id", googleSub)
       .limit(1)
       .maybeSingle();
 
