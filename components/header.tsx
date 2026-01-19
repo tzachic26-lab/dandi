@@ -1,7 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { Github } from "lucide-react"
+import { Github, Menu, X } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 
@@ -15,6 +15,7 @@ type GoogleSession = {
 export function Header() {
   const [googleSession, setGoogleSession] = useState<GoogleSession | null>(null)
   const [sessionLoading, setSessionLoading] = useState(true)
+  const [mobileOpen, setMobileOpen] = useState(false)
 
   useEffect(() => {
     const fetchSession = async () => {
@@ -99,8 +100,51 @@ export function Header() {
               Sign in with Google
             </Button>
           )}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="md:hidden"
+            onClick={() => setMobileOpen((prev) => !prev)}
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+          >
+            {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </Button>
         </div>
       </div>
+      {mobileOpen ? (
+        <div className="border-t border-border bg-background md:hidden">
+          <nav className="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-4 sm:px-6">
+            <Link
+              href="#features"
+              className="rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground"
+              onClick={() => setMobileOpen(false)}
+            >
+              Features
+            </Link>
+            <Link
+              href="#pricing"
+              className="rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground"
+              onClick={() => setMobileOpen(false)}
+            >
+              Pricing
+            </Link>
+            <Link
+              href="/dashboards"
+              className="rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground"
+              onClick={() => setMobileOpen(false)}
+            >
+              Dashboard
+            </Link>
+            <Link
+              href="#"
+              className="rounded-lg px-3 py-2 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground"
+              onClick={() => setMobileOpen(false)}
+            >
+              Docs
+            </Link>
+          </nav>
+        </div>
+      ) : null}
     </header>
   )
 }

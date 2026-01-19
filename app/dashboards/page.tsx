@@ -1,4 +1,4 @@
-"use client";
+ "use client";
 
 import Link from "next/link";
 import { useCallback, useEffect, useId, useState } from "react";
@@ -52,7 +52,7 @@ const navItems: NavItem[] = [
 
 const PlayIcon = () => (
   <span className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-primary/30 bg-primary/10 shadow-sm">
-    <span
+  <span
       className="ml-0.5 h-3 w-3 rotate-[10deg] transform border-[5px] border-l-transparent border-t-transparent border-b-primary border-r-primary"
       aria-hidden="true"
     />
@@ -244,9 +244,9 @@ export default function Home() {
     <main className="min-h-screen bg-background text-foreground">
       <Header />
       <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
-        <div className="flex gap-6">
+        <div className="flex flex-col gap-6 lg:flex-row">
         {sidebarOpen && (
-          <aside className="flex w-72 flex-col gap-6 rounded-[30px] border border-border bg-card p-6 text-foreground shadow-sm">
+          <aside className="flex w-full shrink-0 flex-col gap-6 rounded-[30px] border border-border bg-card p-6 text-foreground shadow-sm lg:w-72">
             <div className="flex items-center justify-between">
               <div className="text-lg font-bold">Dandy</div>
               <button
@@ -278,9 +278,9 @@ export default function Home() {
                       {content}
                     </Link>
                   );
-                }
+  }
 
-                return (
+  return (
                   <div key={item.label} className={`${baseClasses} ${highlightClasses}`}>
                     {content}
                   </div>
@@ -302,7 +302,7 @@ export default function Home() {
           )}
           <main className="space-y-8">
             <header className="rounded-[30px] border border-border bg-card p-6 shadow-sm">
-              <div className="flex flex-wrap items-center justify-between gap-4">
+              <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
                 <div>
                   <p
                     id={headingId}
@@ -315,7 +315,7 @@ export default function Home() {
                     Track plan usage and API keys in one place.
                   </p>
                 </div>
-                <div className="flex flex-wrap items-center gap-3">
+                <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
                   {googleSession?.authenticated ? (
                     <>
                       {googleSession.picture ? (
@@ -353,7 +353,7 @@ export default function Home() {
                     </Button>
                   )}
                 </div>
-              </div>
+    </div>
               <div className="mt-6 grid gap-4 sm:grid-cols-3">
                 {cards.map((item) => (
                   <article
@@ -364,15 +364,15 @@ export default function Home() {
                     <p className="mt-2 text-xl font-semibold">{item.value}</p>
                   </article>
                 ))}
-              </div>
-            </header>
+    </div>
+  </header>
 
             <section className="rounded-[30px] border border-border bg-card p-6 shadow-sm">
               <div className="flex flex-wrap items-center justify-between gap-4">
-                <div>
+      <div>
                   <h2 className="text-2xl font-semibold">API Keys</h2>
                   <p className="text-sm text-muted-foreground">Store, rotate, and revoke API access securely.</p>
-                </div>
+      </div>
                 <Button
                   onClick={() => setIsCreating(true)}
                   disabled={!isAuthenticated}
@@ -380,7 +380,7 @@ export default function Home() {
                 >
                   + Create key
                 </Button>
-              </div>
+    </div>
 
               {!isAuthenticated && !sessionLoading ? (
                 <p className="mt-4 text-sm text-muted-foreground">
@@ -485,7 +485,7 @@ export default function Home() {
                                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                                 </svg>
                               </button>
-                            </div>
+      </div>
                           </td>
                         </tr>
                       ))}
@@ -514,7 +514,7 @@ export default function Home() {
           }`}
         >
           {notice.message}
-        </div>
+    </div>
       )}
 
 
@@ -525,9 +525,9 @@ export default function Home() {
               <div>
                 <p className="text-xs uppercase tracking-[0.4em] text-slate-400">Edit API key</p>
                 <h3 className="text-2xl font-semibold">Update key details</h3>
-              </div>
-              <button
-                type="button"
+    </div>
+    <button
+      type="button"
                 className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600"
                 onClick={handleCloseEdit}
               >
@@ -568,7 +568,7 @@ export default function Home() {
                 className="rounded-full bg-gradient-to-r from-cyan-500 to-rose-500 px-6 py-2 text-sm font-semibold text-white shadow-lg shadow-cyan-500/40 transition hover:opacity-90 disabled:opacity-60"
               >
                 {savingEdit ? "Saving..." : "Save changes"}
-              </button>
+    </button>
             </div>
           </div>
         </div>
@@ -577,7 +577,7 @@ export default function Home() {
       {isCreating && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/75 p-4">
           <div className="w-full max-w-xl space-y-6 rounded-3xl bg-white p-6 text-slate-900 shadow-2xl">
-            <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between">
               <div>
                 <p className="text-xs uppercase tracking-[0.4em] text-slate-400">Create API key</p>
                 <h3 className="text-2xl font-semibold">New key details</h3>
@@ -627,11 +627,11 @@ export default function Home() {
               </button>
             </div>
           </div>
-        </div>
+      </div>
       )}
       </div>
       <Footer />
     </main>
-  );
+);
 }
 

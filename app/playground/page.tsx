@@ -66,16 +66,16 @@ const PlaygroundPage = () => {
     <main className="min-h-screen bg-background text-foreground">
       <Header />
       <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
-        <section className="rounded-3xl border border-border bg-card p-6 text-foreground shadow-sm">
+        <section className="rounded-3xl border border-border bg-card p-6 text-foreground shadow-sm sm:p-8">
         <div className="space-y-4">
-          <p className="text-xs uppercase tracking-[0.6em] text-cyan-300">API Playground</p>
-          <h1 className="text-3xl font-semibold">Protected surface</h1>
-          <p className="text-sm text-slate-300">{statusMessage}</p>
+          <p className="text-xs uppercase tracking-[0.6em] text-muted-foreground">API Playground</p>
+          <h1 className="text-2xl font-semibold sm:text-3xl">Protected surface</h1>
+          <p className="text-sm text-muted-foreground">{statusMessage}</p>
         </div>
 
         {status !== "valid" && (
           <div className="mt-8 space-y-4">
-            <label className="flex flex-col gap-2 text-sm font-medium text-white/80">
+            <label className="flex flex-col gap-2 text-sm font-medium text-muted-foreground">
               <span>Vault key</span>
               <input
                 value={keyInput}
@@ -85,16 +85,16 @@ const PlaygroundPage = () => {
               />
             </label>
             {error && <p className="text-xs font-semibold text-destructive">{error}</p>}
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
               <Button
                 type="button"
                 onClick={handleVerifyKey}
                 disabled={status === "verifying"}
-                className="bg-primary text-primary-foreground hover:bg-primary/90"
+                className="w-full bg-primary text-primary-foreground hover:bg-primary/90 sm:w-auto"
               >
                 {status === "verifying" ? "Verifying…" : "Unlock playground"}
               </Button>
-              <Button type="button" variant="outline" onClick={handleGoBack}>
+              <Button type="button" variant="outline" onClick={handleGoBack} className="w-full sm:w-auto">
                 Back to dashboard
               </Button>
             </div>
