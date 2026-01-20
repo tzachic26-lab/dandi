@@ -35,13 +35,7 @@ const fetchReadme = async (githubUrl: string): Promise<string | null> => {
     logInfo("Resolved owner and repo", { owner, repo });
 
     const branches = ["main", "master"];
-    const githubToken = process.env.GITHUB_TOKEN;
-    const headers: Record<string, string> = {
-      Accept: "application/vnd.github+json",
-    };
-    if (githubToken) {
-      headers.Authorization = `Bearer ${githubToken}`;
-    }
+    const headers = buildGitHubHeaders();
     for (const branch of branches) {
       const url = `https://api.github.com/repos/${owner}/${repo}/readme?ref=${branch}`;
       logInfo("Attempting fetch for branch README", { branch, url });
@@ -86,6 +80,69 @@ const fetchReadme = async (githubUrl: string): Promise<string | null> => {
     logError("Error fetching README", { githubUrl, error });
     return null;
   }
+};
+
+const buildGitHubHeaders = (): Record<string, string> => {
+  const githubToken = process.env.GITHUB_TOKEN;
+  const headers: Record<string, string> = {
+    Accept: "application/vnd.github+json",
+  };
+  if (githubToken) {
+    headers.Authorization = `Bearer ${githubToken}`;
+  }
+  return headers;
+};
+
+const fetchRepoMetadata = async (githubUrl: string) => {
+  const match = githubUrl.match(
+    /^https:\/\/github\.com\/([\w.-]+)\/([\w.-]+)(?:\.git)?(?:\/)?/
+  );
+  if (!match) return null;
+  const [, owner, repo] = match;
+  const headers = buildGitHubHeaders();
+
+  const repoResponse = await fetch(
+    `https://api.github.com/repos/${owner}/${repo}`,
+    { headers }
+  );
+  if (!repoResponse.ok) {
+    logError("Unable to fetch repo metadata", {
+      status: repoResponse.status,
+      owner,
+      repo,
+    });
+    return null;
+  }
+  const repoPayload = (await repoResponse.json()) as {
+    html_url?: string;
+    stargazers_count?: number;
+    forks_count?: number;
+    open_issues_count?: number;
+    description?: string | null;
+    default_branch?: string;
+  };
+
+  let latestVersion: string | null = null;
+  const releaseResponse = await fetch(
+    `https://api.github.com/repos/${owner}/${repo}/releases/latest`,
+    { headers }
+  );
+  if (releaseResponse.ok) {
+    const releasePayload = (await releaseResponse.json()) as {
+      tag_name?: string;
+    };
+    latestVersion = releasePayload.tag_name ?? null;
+  }
+
+  return {
+    url: repoPayload.html_url ?? githubUrl,
+    description: repoPayload.description ?? null,
+    stars: repoPayload.stargazers_count ?? 0,
+    forks: repoPayload.forks_count ?? 0,
+    openIssues: repoPayload.open_issues_count ?? 0,
+    defaultBranch: repoPayload.default_branch ?? null,
+    latestVersion,
+  };
 };
 
 export async function POST(request: NextRequest) {
@@ -194,7 +251,10 @@ export async function POST(request: NextRequest) {
       logInfo("Skipping API key verification for demo request");
     }
 
-    const readme = await fetchReadme(githubUrl);
+    const [readme, repoInfo] = await Promise.all([
+      fetchReadme(githubUrl),
+      fetchRepoMetadata(githubUrl),
+    ]);
     if (!readme) {
       logError("README fetch failed", { githubUrl });
       return NextResponse.json({ message: "README not found" }, { status: 404 });
@@ -209,6 +269,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       summary: summaryResult.summary,
       facts: summaryResult.facts,
+      repo: repoInfo,
     });
   } catch (error) {
     logError("Unable to verify key or fetch README", { error });

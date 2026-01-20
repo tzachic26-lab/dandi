@@ -21,12 +21,6 @@ export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const hasSession = !!request.cookies.get("google_session");
 
-  if (pathname === "/" && hasSession) {
-    const redirectUrl = request.nextUrl.clone();
-    redirectUrl.pathname = "/dashboards";
-    return NextResponse.redirect(redirectUrl);
-  }
-
   if (isPublicPath(pathname)) {
     return NextResponse.next();
   }
