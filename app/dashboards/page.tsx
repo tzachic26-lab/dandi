@@ -11,6 +11,8 @@ type ApiKey = {
   name: string;
   description: string | null;
   key: string;
+  usageCount: number;
+  usageLimit: number | null;
   createdAt: string;
 };
 
@@ -400,6 +402,7 @@ export default function Home() {
                         <th className="px-4 py-3 text-left font-semibold">Name</th>
                         <th className="px-4 py-3 text-left font-semibold">Description</th>
                         <th className="px-4 py-3 text-left font-semibold">Key</th>
+                        <th className="px-4 py-3 text-left font-semibold">Usage</th>
                         <th className="px-4 py-3 text-left font-semibold">Created</th>
                         <th className="px-4 py-3 text-left font-semibold">Actions</th>
                       </tr>
@@ -423,6 +426,11 @@ export default function Home() {
                           <td className="px-4 py-3">{key.description ?? "—"}</td>
                           <td className="px-4 py-3 font-mono text-xs text-slate-200">
                             {visibleKeyId === key.id ? key.key : formatKey(key.key)}
+                          </td>
+                          <td className="px-4 py-3">
+                            {key.usageLimit === null
+                              ? `${key.usageCount}`
+                              : `${key.usageCount} / ${key.usageLimit}`}
                           </td>
                           <td className="px-4 py-3">{formatDate(key.createdAt)}</td>
                           <td className="px-4 py-3 whitespace-nowrap">

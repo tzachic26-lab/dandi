@@ -8,6 +8,8 @@ const normalizeRow = (row: {
   key: string;
   name: string;
   description: string | null;
+  usage_count?: number | null;
+  usage_limit?: number | null;
   created_at: string;
   updated_at: string;
 }) =>
@@ -16,6 +18,8 @@ const normalizeRow = (row: {
     key: row.key,
     name: row.name,
     description: row.description,
+    usage_count: row.usage_count ?? 0,
+    usage_limit: row.usage_limit ?? null,
     created_at: row.created_at,
     updated_at: row.updated_at,
   });
@@ -32,7 +36,7 @@ export async function GET(request: NextRequest) {
 
   const { data, error } = await supabaseAdmin
     .from("api_keys")
-    .select("id, key, name, description, created_at, updated_at")
+    .select("id, key, name, description, usage_count, usage_limit, created_at, updated_at")
     .eq("user_id", googleSub)
     .order("created_at", { ascending: false });
 
@@ -67,7 +71,7 @@ export async function POST(request: NextRequest) {
   const { data, error } = await supabaseAdmin
     .from("api_keys")
     .insert([{ name: body.name.trim(), description, user_id: googleSub }])
-    .select("id, key, name, description, created_at, updated_at")
+    .select("id, key, name, description, usage_count, usage_limit, created_at, updated_at")
     .maybeSingle();
 
   if (error || !data) {
