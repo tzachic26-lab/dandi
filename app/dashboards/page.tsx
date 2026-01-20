@@ -317,44 +317,7 @@ export default function Home() {
                     Track plan usage and API keys in one place.
                   </p>
                 </div>
-                <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-                  {googleSession?.authenticated ? (
-                    <>
-                      {googleSession.picture ? (
-                        <img
-                          src={googleSession.picture}
-                          alt={googleSession.name ?? googleSession.email ?? "Google profile"}
-                          className="h-9 w-9 rounded-full border border-border object-cover"
-                          referrerPolicy="no-referrer"
-                        />
-                      ) : null}
-                      <p className="text-sm text-muted-foreground">
-                        Signed in as {googleSession.name ?? googleSession.email}
-                      </p>
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={async () => {
-                          await fetch("/api/auth/logout");
-                          setGoogleSession({ authenticated: false });
-                          setKeys([]);
-                        }}
-                      >
-                        Sign out
-                      </Button>
-                    </>
-                  ) : (
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => {
-                        window.location.href = "/api/auth/google";
-                      }}
-                    >
-                      Sign in with Google
-                    </Button>
-                  )}
-                </div>
+                <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center" />
     </div>
               <div className="mt-6 grid gap-4 sm:grid-cols-3">
                 {cards.map((item) => (
