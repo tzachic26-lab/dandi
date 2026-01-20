@@ -28,16 +28,6 @@ Notes:
 - Provide an `api-key` header for authenticated requests.
 - The landing page demo uses an internal `x-demo` header to bypass API keys.
 
-API Keys CRUD:
-- `GET /api/keys`
-- `POST /api/keys`
-- `PATCH /api/keys/[id]`
-- `DELETE /api/keys/[id]`
-
-Auth:
-- All API key endpoints require Google SSO (session cookie).
-- Responses are scoped to the signed-in user.
-
 ---
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app)

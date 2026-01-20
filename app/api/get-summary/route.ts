@@ -140,7 +140,7 @@ export async function POST(request: NextRequest) {
       logInfo("Validating API key via Supabase", { key });
       const { data: keyRecord, error: supabaseError } = await supabaseAdmin
         .from("api_keys")
-        .select("id")
+        .select("id, usage_count, usage_limit")
         .eq("key", key)
         .limit(1)
         .maybeSingle();
@@ -158,7 +158,38 @@ export async function POST(request: NextRequest) {
         return NextResponse.json({ valid: false, message: "Key not found" }, { status: 401 });
       }
 
-      logInfo("API key verified");
+      const usageCount = Number(keyRecord.usage_count ?? 0);
+      const usageLimit =
+        keyRecord.usage_limit === null || keyRecord.usage_limit === undefined
+          ? null
+          : Number(keyRecord.usage_limit);
+
+      if (usageLimit !== null && usageCount >= usageLimit) {
+        logError("API key usage limit exceeded", { key, usageCount, usageLimit });
+        return NextResponse.json(
+          { valid: false, message: "Rate limit exceeded" },
+          { status: 429 }
+        );
+      }
+
+      const { error: usageError } = await supabaseAdmin
+        .from("api_keys")
+        .update({ usage_count: usageCount + 1 })
+        .eq("id", keyRecord.id);
+
+      if (usageError) {
+        logError("Unable to increment API key usage", { usageError });
+        return NextResponse.json(
+          { valid: false, message: "Unable to update API key usage" },
+          { status: 500 }
+        );
+      }
+
+      logInfo("API key verified and usage incremented", {
+        key,
+        usageCount: usageCount + 1,
+        usageLimit,
+      });
     } else {
       logInfo("Skipping API key verification for demo request");
     }
