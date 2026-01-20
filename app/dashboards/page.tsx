@@ -306,12 +306,13 @@ export default function Home() {
             <header className="rounded-[30px] border border-border bg-card p-6 shadow-sm">
               <div className="flex flex-col gap-4 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
                 <div>
-                  <p
-                    id={headingId}
-                    className="text-xs font-semibold uppercase tracking-[0.6em] text-muted-foreground"
-                  >
-                    Pages / Overview
-                  </p>
+                  <nav className="text-xs font-semibold uppercase tracking-[0.4em] text-muted-foreground">
+                    <Link href="/" className="transition hover:text-foreground">
+                      Home
+                    </Link>
+                    <span className="mx-2">/</span>
+                    <span>Dashboard</span>
+                  </nav>
                   <h1 className="mt-2 text-3xl font-bold">Overview</h1>
                   <p className="text-sm text-muted-foreground">
                     Track plan usage and API keys in one place.

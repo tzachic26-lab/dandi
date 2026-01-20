@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Footer } from "@/components/footer";
 import { Header } from "@/components/header";
 import { Button } from "@/components/ui/button";
@@ -65,9 +66,31 @@ const PlaygroundPage = () => {
   return (
     <main className="min-h-screen bg-background text-foreground">
       <Header />
-      <div className="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
-        <section className="rounded-3xl border border-border bg-card p-6 text-foreground shadow-sm sm:p-8">
+      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+        <div className="flex flex-col gap-6 lg:flex-row">
+          <aside className="flex w-full shrink-0 flex-col gap-4 rounded-[30px] border border-border bg-card p-6 shadow-sm lg:w-72">
+            <div className="text-lg font-bold">Dandy</div>
+            <nav className="space-y-2 text-sm">
+              <Link
+                href="/dashboards"
+                className="flex min-h-[44px] w-full items-center gap-3 rounded-2xl border border-border bg-secondary px-4 font-semibold text-muted-foreground hover:bg-secondary/80"
+              >
+                Overview
+              </Link>
+              <div className="flex min-h-[44px] w-full items-center gap-3 rounded-2xl border border-primary/40 bg-primary/10 px-4 font-semibold text-foreground">
+                API Playground
+              </div>
+            </nav>
+          </aside>
+          <section className="flex-1 rounded-3xl border border-border bg-card p-6 text-foreground shadow-sm sm:p-8">
         <div className="space-y-4">
+          <nav className="text-xs font-semibold uppercase tracking-[0.4em] text-muted-foreground">
+            <Link href="/" className="transition hover:text-foreground">
+              Home
+            </Link>
+            <span className="mx-2">/</span>
+            <span>API Playground</span>
+          </nav>
           <p className="text-xs uppercase tracking-[0.6em] text-muted-foreground">API Playground</p>
           <h1 className="text-2xl font-semibold sm:text-3xl">Protected surface</h1>
           <p className="text-sm text-muted-foreground">{statusMessage}</p>
@@ -118,6 +141,7 @@ const PlaygroundPage = () => {
           </div>
         )}
         </section>
+        </div>
       </div>
       <Footer />
     </main>
